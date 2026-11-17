@@ -1,0 +1,35 @@
+---
+import { getCollection, getEntry, render } from 'astro:content';
+import { Image, getImage } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import { url, ROTULO_LINK } from '../../lib/util';
+
+export async function getStaticPaths() {
+  const verbetes = await getCollection('croquiteca');
+  return verbetes.map((verbete) => ({ params: { slug: verbete.id }, props: { verbete } }));
+}
+const { verbete } = Astro.props;
+const { Content } = await render(verbete);
+const { nome, regiao, tipo, capa, links, coordenadas, croqui } = verbete.data;
+const proprio = croqui ? await getEntry('croquis', croqui) : undefined;
+const og = capa ? (await getImage({ src: capa, width: 1200 })).src : undefined;
+const descricao = `Croqui de escalada ${nome} (${regiao}, PR) — ${tipo}. Acesso, croquis e links na croquiteca do Momontanha.`;
+const mapa = coordenadas ? `https://www.google.com/maps/search/?api=1&query=${coordenadas[0]},${coordenadas[1]}` : undefined;
+---
+<Base titulo={`Croqui ${nome}`} descricao={descricao} imagem={og}>
+  <p class="meta"><a href={url('/croquiteca/')}>Croquiteca</a> · {regiao} · {tipo}</p>
+  <h1>{nome}</h1>
+  {capa && <div class="capa-relato"><Image src={capa} alt={`${nome}`} width={1400} loading="eager" /></div>}
+  <div class="prosa">
+    <ul class="botoes">
+      {proprio && !proprio.data.rascunho && (
+        <li><a class="botao" href={url(`/croquis/${proprio.id}/`)}>Croqui {proprio.data.setor}<small>versão {proprio.data.versao} · web e PDF</small></a></li>
+      )}
+      {links.map((l) => (
+        <li><a class={`botao ${l.tipo === 'guia' ? 'guia' : l.tipo === 'drive' || l.tipo === 'pdf' ? '' : 'secundario'}`} href={l.url} rel="noopener">{l.rotulo}<small>{ROTULO_LINK[l.tipo]}</small></a></li>
+      ))}
+      {mapa && <li><a class="botao secundario" href={mapa}>Ver no mapa<small>{coordenadas!.join(', ')}</small></a></li>}
+    </ul>
+    <Content />
+  </div>
+</Base>

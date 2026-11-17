@@ -1,0 +1,64 @@
+# Momontanha — contexto para o Claude
+
+Site do Leandro Cechinel: **relatos** de trilhas, travessias e escaladas, a **croquiteca** do Paraná
+e **croquis próprios** (web + PDF versionado). Substitui o antigo `momontanha.wordpress.com`.
+Idioma: **português**. O Leandro não mexe em código: ele manda texto, áudio, fotos e linhas
+riscadas, e o Claude transforma em arquivos aqui.
+
+## Stack
+- **Astro 7** (site estático) · conteúdo em Markdown em `src/content/` · esquemas em `src/content.config.ts`.
+- **GitHub Pages** via `.github/workflows/publicar.yml`: todo push na `main` monta o site, gera os PDFs
+  (Chromium/Playwright) e publica. PDFs de versões novas (não rascunho) viram **Release** com o nome do arquivo.
+- Endereço: `SITE_URL` + `BASE_PATH` (padrão `https://lcechinel.github.io` + `/momontanha`).
+  Com domínio próprio: variáveis do repositório `SITE_URL=https://dominio` e `BASE_PATH=/`, mais o arquivo `public/CNAME`.
+- Links internos nas páginas `.astro` sempre com `url('/caminho/')` de `src/lib/util.ts` (respeita o base).
+
+## Comandos
+- `npm run build` — site + PDFs em `dist/` (PDFs em `dist/pdf/`).
+- `npm run build:site` / `npm run pdfs` — cada etapa separada.
+- `npm run dev` — servidor local.
+
+## Coleções
+| Pasta | O que é |
+|---|---|
+| `src/content/relatos/` | Posts do blog. Frontmatter: `titulo`, `data`, `resumo`, `capa`, `tags`, `rascunho`. |
+| `src/content/croquiteca/` | Um verbete por setor/montanha: `nome`, `regiao`, `tipo`, `capa`, `links` (`rotulo`, `url`, `tipo`: drive, pdf, guia, wikiloc, mapa, fotos, instagram, formulario, externo), `coordenadas`, `croqui` (slug de um croqui próprio). |
+| `src/content/croquis/` | Croquis próprios, dados estruturados (subsetores → blocos → linhas). Viram `/croquis/<slug>/` e `/pdf/<slug>-v<versao>.pdf`. |
+| `src/content/paginas/` | Páginas soltas (Sobre). |
+
+Imagens ficam em `src/assets/` (as migradas em `src/assets/wp/`); o Astro converte para WebP no build.
+Antes de adicionar foto nova, reduzir para no máximo 1600 px e JPEG qualidade ~80.
+
+## Fluxos
+
+### Relato novo
+1. Criar `src/content/relatos/<slug>.md` com o frontmatter acima; fotos em `src/assets/relatos/<slug>/`.
+2. Texto do Leandro com revisão leve (manter a voz dele, primeira pessoa). Vídeo do YouTube:
+   `<div class="video"><iframe src="https://www.youtube-nocookie.com/embed/ID" title="Vídeo" loading="lazy" allowfullscreen></iframe></div>`.
+3. Várias imagens seguidas no mesmo parágrafo viram galeria automaticamente.
+
+### Croqui próprio: linha nova ou correção
+1. Editar `src/content/croquis/<slug>.md` (adicionar a linha no bloco certo; criar o bloco se precisar).
+2. **Sempre** subir a `versao` e adicionar uma entrada em `historico` dizendo o que mudou.
+   - Correção pequena ou linha nova: `0.1 → 0.2`. Revisão grande/primeira publicação oficial: `→ 1.0`.
+3. Foto do bloco: `src/assets/croquis/<slug>/<bloco>.jpg` e `foto:` no bloco.
+4. Linha na foto (`traco`): pontos `x,y` em % da foto, do pé ao topo. Se o Leandro mandar a foto
+   riscada (cor forte) + a original: `python3 scripts/extrair_linha.py riscada.jpg --original original.jpg`.
+   Conferir o resultado olhando a página gerada.
+5. Créditos: quem conquistou (`conquista`, `ano`) e de onde veio a informação. Nunca copiar texto
+   ou fotos de croqui de outra pessoa sem crédito e autorização; guias vendidos só entram como link (`tipo: guia`).
+6. `rascunho: true` mantém a página fora do sitemap, com `noindex`, e sem botão na croquiteca.
+   Tirar o rascunho só quando o Leandro aprovar.
+
+### Croquiteca
+- Verbete novo: arquivo em `src/content/croquiteca/` com `regiao` de uma das regiões existentes
+  (Anhangava, Serra do Ibitiraquire, Serra do Marumbi, São Luiz do Purunã, Campos Gerais, Lapa, Serra do Quiriri, Litoral).
+- Escrever um parágrafo com acesso e o que tem no setor: é esse texto que faz a página aparecer no Google.
+- Croquis livres podem ir como PDF em `public/croquis/` (`tipo: pdf`); pagos, só link de compra.
+
+## Git
+Trabalhar em branch, abrir PR para `main` e fazer squash merge. O merge na `main` publica o site.
+
+## Origem
+`scripts/migrar_wordpress.py` fez a migração única do WordPress (API pública) em 17/11/2026.
+Não roda de novo sem necessidade: ele não sobrescreve arquivos que já existem.

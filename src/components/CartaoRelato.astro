@@ -1,0 +1,16 @@
+---
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import { url, dataBR } from '../lib/util';
+interface Props { relato: CollectionEntry<'relatos'> }
+const { relato } = Astro.props;
+const { titulo, data, resumo, capa } = relato.data;
+---
+<a class="cartao" href={url(`/relatos/${relato.id}/`)}>
+  {capa && <Image src={capa} alt="" width={640} />}
+  <div class="corpo">
+    <span class="etiqueta">{dataBR(data)}</span>
+    <h3>{titulo}</h3>
+    {resumo && <p>{resumo.length > 140 ? resumo.slice(0, 140).trimEnd() + '…' : resumo}</p>}
+  </div>
+</a>

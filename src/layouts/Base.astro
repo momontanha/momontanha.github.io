@@ -1,0 +1,66 @@
+---
+import '../styles/global.css';
+import { url } from '../lib/util';
+
+interface Props {
+  titulo: string;
+  descricao?: string;
+  imagem?: string;
+  noindex?: boolean;
+  classe?: string;
+}
+const { titulo, descricao = 'Relatos de montanha, travessias e escalada, e a croquiteca do Paraná.', imagem, noindex = false, classe } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const tituloCompleto = titulo === 'Momontanha' ? titulo : `${titulo} | Momontanha`;
+const og = imagem ? new URL(imagem, Astro.site).href : undefined;
+const atual = Astro.url.pathname;
+const menu = [
+  { href: url('/relatos/'), rotulo: 'Relatos' },
+  { href: url('/croquiteca/'), rotulo: 'Croquiteca' },
+  { href: url('/sobre/'), rotulo: 'Sobre' },
+];
+---
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{tituloCompleto}</title>
+    <meta name="description" content={descricao} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex" />}
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Momontanha" />
+    <meta property="og:title" content={tituloCompleto} />
+    <meta property="og:description" content={descricao} />
+    <meta property="og:url" content={canonical} />
+    {og && <meta property="og:image" content={og} />}
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" href={url('/favicon.svg')} type="image/svg+xml" />
+    <link rel="alternate" type="application/rss+xml" title="Momontanha — relatos" href={url('/rss.xml')} />
+    <link rel="sitemap" href={url('/sitemap-index.xml')} />
+    <slot name="head" />
+  </head>
+  <body class={classe}>
+    <header class="topo-site">
+      <a class="marca" href={url('/')}>
+        <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M2 27 12 9l5 8 4-6 9 16Z" fill="currentColor" /></svg>
+        Momontanha
+      </a>
+      <nav aria-label="Principal">
+        {menu.map((m) => <a href={m.href} aria-current={atual.startsWith(m.href) ? 'page' : undefined}>{m.rotulo}</a>)}
+      </nav>
+    </header>
+    <main>
+      <slot />
+    </main>
+    <footer class="rodape">
+      <p>
+        <a href="https://pt.wikiloc.com/wikiloc/user.do?id=1772038">Trilhas no Wikiloc</a> ·
+        <a href="https://www.youtube.com/@baitacaZellers">Vídeos no YouTube</a> ·
+        <a href={url('/rss.xml')}>RSS</a>
+      </p>
+      <p class="pequeno">Momontanha — relatos de montanha e croquiteca do Paraná. Croquis pessoais e informais: confirme sempre na rocha.</p>
+    </footer>
+  </body>
+</html>

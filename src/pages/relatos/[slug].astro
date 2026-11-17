@@ -1,0 +1,28 @@
+---
+import { getCollection, render } from 'astro:content';
+import { Image, getImage } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import { url, dataBR } from '../../lib/util';
+
+export async function getStaticPaths() {
+  const relatos = await getCollection('relatos', (r) => !r.data.rascunho);
+  return relatos.map((relato) => ({ params: { slug: relato.id }, props: { relato } }));
+}
+const { relato } = Astro.props;
+const { Content } = await render(relato);
+const { titulo, data, resumo, capa, tags } = relato.data;
+const og = capa ? (await getImage({ src: capa, width: 1200 })).src : undefined;
+---
+<Base titulo={titulo} descricao={resumo} imagem={og}>
+  <article>
+    <header class="prosa">
+      <p class="meta"><a href={url('/relatos/')}>Relatos</a> · {dataBR(data)}</p>
+      <h1>{titulo}</h1>
+    </header>
+    {capa && <div class="capa-relato"><Image src={capa} alt="" width={1400} loading="eager" /></div>}
+    <div class="prosa">
+      <Content />
+      {tags.length > 0 && <p class="meta">Assuntos: {tags.join(', ')}</p>}
+    </div>
+  </article>
+</Base>

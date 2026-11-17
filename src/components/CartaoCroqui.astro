@@ -1,0 +1,28 @@
+---
+import { Image } from 'astro:assets';
+import { getEntry, type CollectionEntry } from 'astro:content';
+import { url } from '../lib/util';
+interface Props { verbete: CollectionEntry<'croquiteca'> }
+const { verbete } = Astro.props;
+const { nome, tipo, capa, croqui, links } = verbete.data;
+const temGuia = links.some((l) => l.tipo === 'guia');
+const proprio = croqui ? await getEntry('croquis', croqui) : undefined;
+const temProprio = proprio && !proprio.data.rascunho;
+const soDownload = links.length > 0 && links.every((l) => l.tipo === 'drive' || l.tipo === 'pdf' || l.tipo === 'fotos');
+const resumo = temProprio
+  ? `Croqui próprio — versão ${proprio!.data.versao} (web e PDF)`
+  : temGuia
+    ? 'Guia publicado — link de compra'
+    : soDownload
+      ? 'Croqui para baixar'
+      : 'Croqui, acesso e links';
+const busca = [nome, verbete.data.regiao, tipo, ...verbete.data.tags].join(' ').toLowerCase();
+---
+<a class="cartao" href={url(`/croquiteca/${verbete.id}/`)} data-busca={busca}>
+  {capa && <Image src={capa} alt="" width={640} />}
+  <div class="corpo">
+    <span class="etiqueta">{tipo}</span>
+    <h3>{nome}</h3>
+    <p>{resumo}</p>
+  </div>
+</a>

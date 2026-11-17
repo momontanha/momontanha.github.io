@@ -1,0 +1,48 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import CartaoCroqui from '../../components/CartaoCroqui.astro';
+import { slugify } from '../../lib/util';
+
+const verbetes = await getCollection('croquiteca');
+const ordem = ['Anhangava', 'Serra do Ibitiraquire', 'Serra do Marumbi', 'São Luiz do Purunã', 'Campos Gerais', 'Lapa', 'Serra do Quiriri', 'Litoral'];
+const regioes = [...new Set(verbetes.map((v) => v.data.regiao))].sort((a, b) => {
+  const ia = ordem.indexOf(a), ib = ordem.indexOf(b);
+  return (ia < 0 ? 99 : ia) - (ib < 0 ? 99 : ib) || a.localeCompare(b);
+});
+const porRegiao = regioes.map((r) => ({
+  regiao: r,
+  itens: verbetes.filter((v) => v.data.regiao === r).sort((a, b) => a.data.nome.localeCompare(b.data.nome)),
+}));
+---
+<Base titulo="Croquiteca" descricao="Croquis de escalada do Paraná: Anhangava, Ibitiraquire, Marumbi, São Luiz do Purunã, Campos Gerais e litoral. Acesso, tracklogs, PDFs e links para os guias.">
+  <h1>Croquiteca</h1>
+  <p>Tudo o que eu reuni de croqui de escalada do Paraná: acesso, tracklog, PDFs e, para os guias publicados e vendidos, o link de onde comprar.</p>
+  <p class="aviso">Croquis informais, juntados ao longo dos anos. Confirme sempre na rocha e respeite as regras de acesso de cada lugar.</p>
+  <input class="busca" type="search" placeholder="Buscar setor, montanha, região…" aria-label="Buscar na croquiteca" id="busca" />
+  <nav class="meta" aria-label="Regiões">
+    {porRegiao.map((g, i) => <>{i > 0 && ' · '}<a href={`#${slugify(g.regiao)}`}>{g.regiao}</a></>)}
+  </nav>
+  {porRegiao.map((g) => (
+    <section class="regiao" id={slugify(g.regiao)} data-regiao>
+      <h2>{g.regiao}</h2>
+      <div class="grade">{g.itens.map((v) => <CartaoCroqui verbete={v} />)}</div>
+    </section>
+  ))}
+  <script>
+    const campo = document.getElementById('busca') as HTMLInputElement;
+    campo.addEventListener('input', () => {
+      const q = campo.value.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().trim();
+      document.querySelectorAll<HTMLElement>('[data-regiao]').forEach((sec) => {
+        let visiveis = 0;
+        sec.querySelectorAll<HTMLElement>('[data-busca]').forEach((c) => {
+          const alvo = (c.dataset.busca ?? '').normalize('NFD').replace(/[̀-ͯ]/g, '');
+          const ok = !q || alvo.includes(q);
+          c.hidden = !ok;
+          if (ok) visiveis++;
+        });
+        sec.hidden = visiveis === 0;
+      });
+    });
+  </script>
+</Base>

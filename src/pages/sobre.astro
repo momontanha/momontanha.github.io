@@ -1,0 +1,12 @@
+---
+import { getEntry, render } from 'astro:content';
+import Base from '../layouts/Base.astro';
+const pagina = (await getEntry('paginas', 'sobre'))!;
+const { Content } = await render(pagina);
+---
+<Base titulo="Sobre" descricao="Quem escreve o Momontanha.">
+  <div class="prosa">
+    <h1>Sobre</h1>
+    <Content />
+  </div>
+</Base>

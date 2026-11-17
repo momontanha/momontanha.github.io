@@ -1,0 +1,60 @@
+name: Publicar site
+
+# Roda a cada push na main: monta o site, gera os PDFs dos croquis,
+# publica no GitHub Pages e guarda cada versão nova de PDF como Release.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      # Com domínio próprio: SITE_URL=https://momontanha.com e BASE_PATH=/ (em Settings → Variables)
+      SITE_URL: ${{ vars.SITE_URL || 'https://lcechinel.github.io' }}
+      BASE_PATH: ${{ vars.BASE_PATH || '/momontanha' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - name: Site e PDFs
+        run: npm run build
+      - name: Guardar PDFs novos como Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          for pdf in dist/pdf/*.pdf; do
+            [ -e "$pdf" ] || continue
+            nome=$(basename "$pdf" .pdf)
+            case "$nome" in *-rascunho) continue ;; esac
+            if ! gh release view "$nome" >/dev/null 2>&1; then
+              gh release create "$nome" "$pdf" --title "$nome" --notes "PDF gerado automaticamente a partir do commit ${GITHUB_SHA::7}."
+            fi
+          done
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

@@ -1,0 +1,28 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import CartaoRelato from '../components/CartaoRelato.astro';
+import { url } from '../lib/util';
+
+const relatos = (await getCollection('relatos', (r) => !r.data.rascunho))
+  .sort((a, b) => b.data.data.getTime() - a.data.data.getTime());
+const verbetes = await getCollection('croquiteca');
+const regioes = [...new Set(verbetes.map((v) => v.data.regiao))].filter((r) => r !== 'A confirmar');
+---
+<Base titulo="Momontanha">
+  <section class="hero">
+    <h1>Momontanha</h1>
+    <p>Relatos de trilhas, travessias e escaladas nas serras do Paraná, e uma croquiteca com tudo o que eu reuni de croqui, acesso e tracklog da região.</p>
+    <ul class="botoes">
+      <li><a class="botao" href={url('/croquiteca/')}>Croquiteca<small>{verbetes.length} setores e montanhas</small></a></li>
+      <li><a class="botao secundario" href={url('/relatos/')}>Relatos<small>{relatos.length} histórias</small></a></li>
+    </ul>
+    <p class="meta">Regiões: {regioes.join(' · ')}</p>
+  </section>
+
+  <h2>Relatos recentes</h2>
+  <div class="grade">
+    {relatos.slice(0, 6).map((r) => <CartaoRelato relato={r} />)}
+  </div>
+  <p><a href={url('/relatos/')}>Ver todos os relatos →</a></p>
+</Base>

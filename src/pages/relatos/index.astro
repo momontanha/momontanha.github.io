@@ -1,0 +1,15 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import CartaoRelato from '../../components/CartaoRelato.astro';
+
+const relatos = (await getCollection('relatos', (r) => !r.data.rascunho))
+  .sort((a, b) => b.data.data.getTime() - a.data.data.getTime());
+---
+<Base titulo="Relatos" descricao="Relatos de trilhas, travessias e escaladas nas serras do Paraná e além.">
+  <h1>Relatos</h1>
+  <p class="meta">Trilhas, travessias e escaladas — do mais recente ao mais antigo.</p>
+  <div class="grade">
+    {relatos.map((r) => <CartaoRelato relato={r} />)}
+  </div>
+</Base>

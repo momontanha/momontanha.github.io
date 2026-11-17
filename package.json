@@ -1,0 +1,21 @@
+{
+  "name": "momontanha",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build && node scripts/gerar-pdfs.mjs",
+    "build:site": "astro build",
+    "pdfs": "node scripts/gerar-pdfs.mjs",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "@astrojs/rss": "^4.0.19",
+    "@astrojs/sitemap": "^3.7.5",
+    "astro": "^7.4.12"
+  },
+  "devDependencies": {
+    "playwright": "^1.63.0"
+  }
+}
