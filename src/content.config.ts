@@ -73,8 +73,14 @@ const croquis = defineCollection({
       versao: z.string(),
       atualizado: z.coerce.date(),
       rascunho: z.boolean().default(false),
+      /** linha curta abaixo do nome do setor na capa */
+      subtitulo: z.string().optional(),
       capa: image().optional(),
       capa_credito: z.string().optional(),
+      /** enquadramento da foto da capa (object-position), ex.: "60% 40%" */
+      capa_posicao: z.string().default('center'),
+      /** foto de paisagem/ambiente da página de abertura */
+      abertura: z.object({ imagem: image(), legenda: z.string().optional(), credito: z.string().optional() }).optional(),
       coordenadas: z.tuple([z.number(), z.number()]).optional(),
       escala: z.string().default('V (Hueco)'),
       /** página do setor/crag no 8a.nu */
@@ -85,6 +91,8 @@ const croquis = defineCollection({
           nome: z.string(),
           descricao: z.string().optional(),
           mapas: z.array(z.object({ imagem: image(), legenda: z.string().optional(), credito: z.string().optional() })).default([]),
+          /** fotos de escalada/ambiente que abrem o subsetor */
+          galeria: z.array(z.object({ imagem: image(), legenda: z.string().optional(), credito: z.string().optional() })).default([]),
           blocos: z.array(
             z.object({
               nome: z.string(),

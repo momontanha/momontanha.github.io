@@ -4,11 +4,17 @@ setor: Castelinhos
 regiao: Morro do Anhangava — Serra da Baitaca
 municipio: Quatro Barras (PR)
 tipo: boulder
-versao: '0.2'
+versao: '0.3'
 atualizado: 2026-11-18
 rascunho: false
+subtitulo: Boulder no Morro do Anhangava
 capa: ../../assets/wp/2022/01/lce_5838.jpg
-capa_credito: 'Foto: Momontanha'
+capa_credito: 'Cechinel na Caverna, ao pôr do sol · Foto: acervo Momontanha'
+capa_posicao: 58% 45%
+abertura:
+  imagem: ../../assets/wp/2022/01/lce_5909.jpg
+  legenda: Morro do Anhangava no fim da tarde
+  credito: 'Foto: acervo Momontanha'
 coordenadas:
 - -25.387897
 - -49.018662
@@ -24,6 +30,7 @@ creditos:
 historico:
 - {versao: '0.1', data: 2026-11-17, mudancas: 'Primeira versão. Junta as 36 linhas do croqui de 2013 e as 26 do Setor Lenhador (2015), ainda sem fotos. Graus como nos croquis originais.'}
 - {versao: '0.2', data: 2026-11-18, mudancas: 'Fotos dos blocos e mapas dos subsetores reaproveitados dos croquis de 2013 e 2015, com as linhas antigas apagadas e redesenhadas no padrão do site. Foto nova do bloco Orelinha. Novo subsetor Entrada, com o bloco Catedral (5 linhas abertas em 2026) e a fenda Ciclone, atrás da Barbacã. Entram duas linhas que só aparecem nos topos de 2015 (Virada V0 e Apitoxina em pé V3) e notas sobre graus que divergem entre as fontes. As linhas passam a ser numeradas dentro de cada bloco, com o número no início e no topo de cada linha. Primeira versão publicada na croquiteca.'}
+- {versao: '0.3', data: 2026-11-18, mudancas: 'Novo visual: capa com foto (Cechinel na Caverna ao pôr do sol), página de abertura com ficha e legenda, índice dos subsetores, fotos de escalada abrindo cada subsetor, blocos em cartões e graus em selo colorido. PDF mais enxuto (28 páginas), com 2 blocos por página e rodapé numerado.'}
 subsetores:
 - nome: Entrada
   descricao: 'Blocos logo no começo do setor, à direita da trilha, pouco antes de chegar ao Setor de Cima. Ficavam escondidos no mato e apareceram depois dos incêndios do fim de 2025; desde 2026 a galera vem limpando e abrindo linhas. Ainda tem rocha solta e esfarelando: cuidado.'
@@ -55,6 +62,10 @@ subsetores:
     - {nome: Ciclone, grau: 'V4?', descricao: 'Fenda limpa em 2026 e encadenada de corda, guiando em móvel, em 14/11/2026 (sugestão: 7b). Para fazer de boulder, falta terminar a base. Nome sugerido pelo Cechinel: se a linha já tinha nome ou história, avise.', conquista: 'Cechinel (em móvel, 14/11/2026)', ano: 2026, traco: '44.2,55.2 45.5,51.0 49.8,50.5 51.8,48.5 51.2,43.1 49.6,42.1 49.8,30.6 47.9,25.6 47.4,15.0'}
 - nome: Setor de Cima
   descricao: Dá acesso aos outros setores e tem vista para o Morro do Anhangava. Os primeiros boulders do Castelinhos foram abertos aqui nos anos 90, nos blocos Caverna, Piano e Rala Punho.
+  galeria:
+  - imagem: ../../assets/croquis/castelinhos-anhangava/acao/caverna-sequencia.jpg
+    legenda: 'André Braga, Camila Macedo e Wagner Lara na Caverna (V4)'
+    credito: 'Foto: Roniel Fonseca / EscaleMais, via croqui de 2013'
   blocos:
   - nome: Caverna
     descricao: O bloco mais conhecido do setor e ponto de referência para quem chega pela trilha principal do Anhangava.
@@ -102,6 +113,10 @@ subsetores:
     credito: Jornal de Montanha (2011), via croqui de 2013
 - nome: Setor do Meio
   descricao: 'Onde tudo começou: nos anos 80, moradores do Anhangava escalaram as fissuras do bloco das Fendas em móvel e top rope. Tem várias fissuras e alguns dos boulders mais duros do Castelinhos.'
+  galeria:
+  - imagem: ../../assets/croquis/castelinhos-anhangava/acao/agarra-quebrou.jpg
+    legenda: 'André Braga na Agarra Quebrou (V8)'
+    credito: 'Foto: Roniel Fonseca, via croqui de 2013'
   blocos:
   - nome: Agarra Quebrou
     linhas:
@@ -155,6 +170,10 @@ subsetores:
     credito: Jornal de Montanha (2011), via croqui de 2013
 - nome: Setor de Baixo
   descricao: Os lances foram abertos a partir de 2005 por escaladores de Curitiba e do Anhangava.
+  galeria:
+  - imagem: ../../assets/croquis/castelinhos-anhangava/acao/arestafari.jpg
+    legenda: 'Tomy no Arestafari (V6), com o Betão na segurança'
+    credito: 'Foto: Tiago Nunes, via croqui de 2013'
   blocos:
   - nome: Resta Um
     linhas:
@@ -198,6 +217,13 @@ subsetores:
     credito: Jornal de Montanha (2011), via croqui de 2013
 - nome: Setor Lenhador
   descricao: 'Fica a uns 5 minutos do bloco Caverna. Pegue a trilha ao lado do boulder Satã no sentido do acesso principal (trailer do IAP), passe a pedreira e uma trilha interditada à direita. A trilha sobe, passa por uns pínus e chega numa clareira: ali, pegue a trilha secundária à esquerda. Aberto em 2007 e reativado em 2015, quando as bases foram limpas e algumas agarras soltas foram coladas. Muitas linhas foram feitas primeiro saindo em pé e depois sentado, mantendo o nome.'
+  galeria:
+  - imagem: ../../assets/croquis/castelinhos-anhangava/acao/vassalo-fa.jpg
+    legenda: 'Briones na primeira ascensão do Vassalo (V6)'
+    credito: 'Foto: Marcelo Sangil, via croqui de 2015'
+  - imagem: ../../assets/croquis/castelinhos-anhangava/acao/brilho-do-breu-fa.jpg
+    legenda: 'Rafinha na primeira ascensão do Brilho do Breu (V6)'
+    credito: 'Foto: Rafael Briones, via croqui de 2015'
   blocos:
   - nome: Excalibur
     linhas:
