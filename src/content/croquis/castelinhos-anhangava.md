@@ -51,7 +51,7 @@ subsetores:
     - rotulo: Reel no Instagram
       url: https://www.instagram.com/reel/Dfxo_hVquS3/
     linhas:
-    - {nome: Ciclone, grau: 'V4?', descricao: 'Fenda limpa em 2026 e encadenada de corda, guiando em móvel, em 14/11/2026 (sugestão: 7b). Para fazer de boulder, falta terminar a base. Nome sugerido pelo Leandro: se a linha já tinha nome ou história, avise.', conquista: 'Leandro Cechinel (em móvel, 14/11/2026)', ano: 2026, traco: '44.2,55.2 45.5,51.0 49.8,50.5 51.8,48.5 51.2,43.1 49.6,42.1 49.8,30.6 47.9,25.6 47.4,15.0'}
+    - {nome: Ciclone, grau: 'V4?', descricao: 'Fenda limpa em 2026 e encadenada de corda, guiando em móvel, em 14/11/2026 (sugestão: 7b). Para fazer de boulder, falta terminar a base. Nome sugerido pelo Cechinel: se a linha já tinha nome ou história, avise.', conquista: 'Cechinel (em móvel, 14/11/2026)', ano: 2026, traco: '44.2,55.2 45.5,51.0 49.8,50.5 51.8,48.5 51.2,43.1 49.6,42.1 49.8,30.6 47.9,25.6 47.4,15.0'}
 - nome: Setor de Cima
   descricao: Dá acesso aos outros setores e tem vista para o Morro do Anhangava. Os primeiros boulders do Castelinhos foram abertos aqui nos anos 90, nos blocos Caverna, Piano e Rala Punho.
   blocos:

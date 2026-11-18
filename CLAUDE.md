@@ -2,7 +2,8 @@
 
 Site do Leandro Cechinel: **relatos** de trilhas, travessias e escaladas, a **croquiteca** do Paraná
 e **croquis próprios** (web + PDF versionado). Substitui o antigo `momontanha.wordpress.com`.
-Idioma: **português**. O Leandro não mexe em código: ele manda texto, áudio, fotos e linhas
+Idioma: **português**. Na escalada o Leandro é chamado de **Cechinel**: nos textos de croqui e créditos
+de conquista use "Cechinel" (o nome completo, Leandro Cechinel, só em créditos formais como autoria e fotos). O Leandro não mexe em código: ele manda texto, áudio, fotos e linhas
 riscadas, e o Claude transforma em arquivos aqui.
 
 ## Stack
@@ -58,6 +59,9 @@ Antes de adicionar foto nova, reduzir para no máximo 1600 px e JPEG qualidade ~
    `pip install opencv-python-headless`. Conferir lado a lado com o original; em travessia o início pode sair invertido.
 5. Créditos: quem conquistou (`conquista`, `ano`) e de onde veio a informação. Nunca copiar texto
    ou fotos de croqui de outra pessoa sem crédito e autorização; guias vendidos só entram como link (`tipo: guia`).
+   **Fotos de terceiros** (croquis de 2013/2015, posts de outros escaladores): o Leandro decidiu (18/11/2026)
+   mantê-las, com crédito em cada foto, até tirar fotos novas no setor. Ao receber foto nova de um bloco,
+   trocar a foto antiga e redesenhar as linhas (pedir o risco quando o ângulo mudar muito).
 6. `rascunho: true` mantém a página fora do sitemap, com `noindex`, e sem botão na croquiteca.
    Tirar o rascunho só quando o Leandro aprovar.
 
