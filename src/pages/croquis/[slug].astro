@@ -13,11 +13,10 @@ const { croqui } = Astro.props;
 const { Content } = await render(croqui);
 const d = croqui.data;
 
-// Numeração contínua das linhas no croqui inteiro (se não vier no arquivo).
-let contador = 0;
+// Numeração das linhas: recomeça em 1 em cada bloco (o arquivo pode fixar outro número com `n`).
 const subsetores = d.subsetores.map((s) => ({
   ...s,
-  blocos: s.blocos.map((b) => ({ ...b, linhas: b.linhas.map((l) => ({ ...l, n: l.n ?? ++contador })) })),
+  blocos: s.blocos.map((b) => ({ ...b, linhas: b.linhas.map((l, i) => ({ ...l, n: l.n ?? i + 1 })) })),
 }));
 const todas = subsetores.flatMap((s) => s.blocos.flatMap((b) => b.linhas));
 const totalBlocos = subsetores.reduce((n, s) => n + s.blocos.length, 0);
@@ -43,7 +42,7 @@ const descricao = `Croqui de ${d.tipo} ${d.setor} — ${d.regiao}, ${d.municipio
 
   {d.capa && (
     <figure class="capa-croqui">
-      <Image src={d.capa} alt={`${d.setor}`} width={1600} loading="eager" />
+      <Image src={d.capa} alt={`${d.setor}`} width={1600} format="jpg" quality={80} loading="eager" />
       {d.capa_credito && <figcaption>{d.capa_credito}</figcaption>}
     </figure>
   )}
@@ -63,18 +62,39 @@ const descricao = `Croqui de ${d.tipo} ${d.setor} — ${d.regiao}, ${d.municipio
     <ul>
       {faixas.map(([f, rot]) => <li><span class="traco" style={`--cor:${CORES_FAIXA[f]}`} data-projeto={f === 'projeto' ? '' : undefined}></span>{rot}</li>)}
     </ul>
-    <p class="pequeno">O número fica no início da linha. SDS = saída sentado. Graus sugeridos: confirme na rocha.</p>
+    <p class="pequeno">As linhas são numeradas dentro de cada bloco. O número aparece nas duas pontas da linha: círculo cheio no início e vazado no topo. SDS = saída sentado. Graus sugeridos: confirme na rocha.</p>
   </section>
 
   {subsetores.map((s) => (
     <section class="subsetor">
       <h2>{s.nome}</h2>
       {s.descricao && <p>{s.descricao}</p>}
+      {s.mapas.length > 0 && (
+        <div class="mapas">
+          {s.mapas.map((m) => (
+            <figure class="mapa">
+              <Image src={m.imagem} alt={m.legenda ?? `Mapa do ${s.nome}`} width={960} format="jpg" quality={85} />
+              {(m.legenda || m.credito) && <figcaption>{[m.legenda, m.credito].filter(Boolean).join(' — ')}</figcaption>}
+            </figure>
+          ))}
+        </div>
+      )}
       {s.blocos.map((b) => (
         <article class="bloco">
-          <h3>{b.nome}</h3>
-          {b.descricao && <p>{b.descricao}</p>}
-          {b.foto && <FotoLinhas foto={b.foto} alt={`Bloco ${b.nome}`} linhas={b.linhas} credito={b.foto_credito} />}
+          {/* título + descrição + primeira foto andam juntos na impressão */}
+          <div class="inicio-bloco">
+            <h3>{b.nome}</h3>
+            {b.descricao && <p>{b.descricao}</p>}
+            {b.fotos.slice(0, 1).map((f) => (
+              <FotoLinhas foto={f.imagem} alt={`Bloco ${b.nome}${b.fotos.length > 1 ? ' (foto 1)' : ''}`} linhas={b.linhas.filter((l) => l.foto === 1)} credito={f.credito} />
+            ))}
+          </div>
+          {b.links.length > 0 && (
+            <p class="links-bloco nao-imprimir">{b.links.map((l, i) => <>{i > 0 && ' · '}<a href={l.url} rel="noopener">{l.rotulo}</a></>)}</p>
+          )}
+          {b.fotos.slice(1).map((f, i) => (
+            <FotoLinhas foto={f.imagem} alt={`Bloco ${b.nome} (foto ${i + 2})`} linhas={b.linhas.filter((l) => l.foto === i + 2)} credito={f.credito} />
+          ))}
           <table>
             <thead><tr><th>Nº</th><th>Linha</th><th>Grau</th><th>Conquista</th></tr></thead>
             <tbody>
@@ -121,7 +141,12 @@ const descricao = `Croqui de ${d.tipo} ${d.setor} — ${d.regiao}, ${d.municipio
   .traco { box-shadow: 0 0 0 1px var(--linha); }
   .subsetor { margin-top: 2.5rem; }
   .subsetor > h2 { background: var(--marca); color: var(--sobre-marca); padding: 0.4rem 0.8rem; border-radius: 6px; }
-  .bloco { margin: 1.2rem 0 1.8rem; break-inside: avoid; }
+  .bloco { margin: 1.2rem 0 1.8rem; }
+  .bloco table { break-inside: avoid; }
+  .links-bloco { font-size: 0.9rem; margin: 0.2rem 0 0.6rem; }
+  .mapas { display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: 0.8rem; margin: 0.8rem 0 1.2rem; }
+  .mapa { margin: 0; break-inside: avoid; }
+  .mapa img { width: 100%; height: auto; border-radius: 6px; border: 1px solid var(--linha); }
   .bloco h3 { margin-bottom: 0.3rem; }
   .pagina-croqui table { width: 100%; border-collapse: collapse; background: var(--superficie); font-size: 0.95rem; table-layout: fixed; }
   .bloco th:nth-child(1) { width: 2.6rem; } .bloco th:nth-child(2) { width: 42%; } .bloco th:nth-child(3) { width: 4.5rem; }
@@ -140,7 +165,9 @@ const descricao = `Croqui de ${d.tipo} ${d.setor} — ${d.regiao}, ${d.municipio
     .pagina-croqui .capa-croqui img { max-height: 120mm; }
     .subsetor { break-before: page; margin-top: 0; }
     .creditos { break-before: page; }
-    .bloco, tr { break-inside: avoid; }
+    tr { break-inside: avoid; }
+    .inicio-bloco { break-inside: avoid; }
+    .bloco h3 { break-after: avoid; }
     .subsetor > h2, .num, .selo, .traco { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   }
 </style>

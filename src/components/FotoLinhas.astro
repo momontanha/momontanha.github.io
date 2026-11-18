@@ -19,18 +19,56 @@ const desenhos = linhas
     const faixa = faixaGrau(l.grau);
     return { ...l, pts, cor: CORES_FAIXA[faixa], projeto: faixa === 'projeto' };
   });
-const r = esp * 0.022;
+const r = esp * 0.022; // raio do número no início
+const rf = r * 0.8; // raio do número no topo
+// Cada linha leva o número nas duas pontas: círculo cheio no início e vazado no topo.
+// Números que cairiam um em cima do outro são afastados e ligados ao ponto por um tracinho.
+type Marca = { x: number; y: number; px: number; py: number; raio: number; n: number; cor: string; tipo: 'inicio' | 'fim' };
+const marcas: Marca[] = [];
+function colocar(px: number, py: number, raio: number) {
+  const dentro = (v: number, max: number) => Math.min(Math.max(v, raio + 2), max - raio - 2);
+  const livre = (x: number, y: number) => marcas.every((m) => Math.hypot(m.x - x, m.y - y) >= (m.raio + raio) * 1.08);
+  let x = dentro(px, W), y = dentro(py, H);
+  for (let passo = 1; !livre(x, y) && passo <= 16; passo++) {
+    const lado = passo % 2 === 1 ? 1 : -1;
+    const k = Math.ceil(passo / 2);
+    x = dentro(px + lado * k * raio * 2.2, W);
+    y = dentro(py + (k > 4 ? (k - 4) * raio * 2.2 : 0), H);
+  }
+  return [x, y];
+}
+for (const d of desenhos) {
+  const [x, y] = colocar(d.pts[0][0], d.pts[0][1], r);
+  marcas.push({ x, y, px: d.pts[0][0], py: d.pts[0][1], raio: r, n: d.n, cor: d.cor, tipo: 'inicio' });
+}
+for (const d of desenhos) {
+  const [fx, fy] = d.pts[d.pts.length - 1];
+  const [x, y] = colocar(fx, fy, rf);
+  marcas.push({ x, y, px: fx, py: fy, raio: rf, n: d.n, cor: d.cor, tipo: 'fim' });
+}
+const pontos = (d: (typeof desenhos)[number]) => d.pts.map((p) => p.join(',')).join(' ');
 ---
 <figure class="foto-linhas">
   <div class="quadro">
-    <Image src={foto} alt={alt} width={1600} />
+    <Image src={foto} alt={alt} width={1400} format="jpg" quality={80} />
     <svg viewBox={`0 0 ${W} ${H}`} aria-hidden="true">
       {desenhos.map((d) => (
         <g>
-          <polyline points={d.pts.map((p) => p.join(',')).join(' ')} fill="none" stroke="#fff" stroke-width={esp * 0.011} stroke-linecap="round" stroke-linejoin="round" opacity="0.85" />
-          <polyline points={d.pts.map((p) => p.join(',')).join(' ')} fill="none" stroke={d.cor} stroke-width={esp * 0.006} stroke-linecap="round" stroke-linejoin="round" stroke-dasharray={d.projeto ? `${esp * 0.02} ${esp * 0.012}` : undefined} />
-          <circle cx={d.pts[0][0]} cy={d.pts[0][1]} r={r} fill={d.cor} stroke="#fff" stroke-width={esp * 0.004} />
-          <text x={d.pts[0][0]} y={d.pts[0][1]} dy="0.35em" text-anchor="middle" font-size={r * 1.25} font-weight="700" fill="#fff" font-family="system-ui, sans-serif">{d.n}</text>
+          <polyline points={pontos(d)} fill="none" stroke="#fff" stroke-width={esp * 0.011} stroke-linecap="round" stroke-linejoin="round" opacity="0.85" />
+          <polyline points={pontos(d)} fill="none" stroke={d.cor} stroke-width={esp * 0.006} stroke-linecap="round" stroke-linejoin="round" stroke-dasharray={d.projeto ? `${esp * 0.02} ${esp * 0.012}` : undefined} />
+        </g>
+      ))}
+      {marcas.filter((m) => Math.hypot(m.x - m.px, m.y - m.py) > m.raio * 0.5).map((m) => (
+        <line x1={m.px} y1={m.py} x2={m.x} y2={m.y} stroke={m.cor} stroke-width={esp * 0.003} />
+      ))}
+      {marcas.map((m) => (
+        <g>
+          {m.tipo === 'inicio' ? (
+            <circle cx={m.x} cy={m.y} r={m.raio} fill={m.cor} stroke="#fff" stroke-width={esp * 0.004} />
+          ) : (
+            <circle cx={m.x} cy={m.y} r={m.raio} fill="#fff" stroke={m.cor} stroke-width={esp * 0.005} />
+          )}
+          <text x={m.x} y={m.y} dy="0.35em" text-anchor="middle" font-size={m.raio * 1.25} font-weight="700" fill={m.tipo === 'inicio' ? '#fff' : '#1d211e'} font-family="system-ui, sans-serif">{m.n}</text>
         </g>
       ))}
     </svg>
@@ -38,9 +76,11 @@ const r = esp * 0.022;
   {credito && <figcaption>{credito}</figcaption>}
 </figure>
 <style>
-  .foto-linhas { margin: 0.8rem 0; break-inside: avoid; }
-  .quadro { position: relative; line-height: 0; }
-  .quadro :global(img) { width: 100%; height: auto; border-radius: 6px; }
+  .foto-linhas { margin: 0.8rem 0; break-inside: avoid; text-align: center; }
+  /* o quadro abraça a foto, para o SVG das linhas ficar exatamente por cima dela */
+  .quadro { position: relative; line-height: 0; width: fit-content; max-width: 100%; margin: 0 auto; }
+  .quadro :global(img) { display: block; width: auto; max-width: 100%; height: auto; max-height: 80vh; border-radius: 6px; }
+  @media print { .quadro :global(img) { max-height: 140mm; } }
   .quadro svg { position: absolute; inset: 0; width: 100%; height: 100%; }
   figcaption { font-size: 0.8rem; color: var(--cinza); margin-top: 0.3rem; }
 </style>

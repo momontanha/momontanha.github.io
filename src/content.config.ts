@@ -52,6 +52,8 @@ const linha = z.object({
   descricao: z.string().optional(),
   /** pontos da linha sobre a foto, em % da largura e da altura: "12,95 18,70 25,40" */
   traco: z.string().optional(),
+  /** em qual foto do bloco o traço está (1 = primeira) */
+  foto: z.number().int().min(1).default(1),
   /** de onde veio a informação, quando não é do autor */
   fonte: z.string().optional(),
 });
@@ -78,12 +80,15 @@ const croquis = defineCollection({
         z.object({
           nome: z.string(),
           descricao: z.string().optional(),
+          mapas: z.array(z.object({ imagem: image(), legenda: z.string().optional(), credito: z.string().optional() })).default([]),
           blocos: z.array(
             z.object({
               nome: z.string(),
               descricao: z.string().optional(),
-              foto: image().optional(),
-              foto_credito: z.string().optional(),
+              /** fotos do bloco; cada linha diz em qual foto está o seu traço (campo `foto`) */
+              fotos: z.array(z.object({ imagem: image(), credito: z.string().optional() })).default([]),
+              /** vídeos, posts e outras referências do bloco */
+              links: z.array(z.object({ rotulo: z.string(), url: z.string().url() })).default([]),
               linhas: z.array(linha).default([]),
             }),
           ),
