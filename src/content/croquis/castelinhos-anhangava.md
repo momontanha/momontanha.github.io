@@ -13,6 +13,7 @@ coordenadas:
 - -25.387897
 - -49.018662
 escala: V (Hueco); fissuras com grau de via, como no croqui de 2013
+oitoa: https://www.8a.nu/crags/bouldering/brazil/anhangava
 creditos:
 - 'Organização deste croqui: Leandro Cechinel (Momontanha).'
 - 'Setores de Cima, do Meio e de Baixo: Croqui dos Castelinhos (2013). O documento não traz o nome dos autores; fotos de Roniel Fonseca, Ale Oliveira e Tiago Nunes; mapas dos subsetores do Jornal de Montanha (2011).'

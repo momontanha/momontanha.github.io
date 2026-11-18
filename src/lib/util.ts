@@ -48,5 +48,6 @@ export const ROTULO_LINK: Record<string, string> = {
   fotos: 'Álbum de fotos',
   instagram: 'Instagram',
   formulario: 'Formulário',
+  '8a': 'Cadenas no 8a.nu',
   externo: 'Link',
 };

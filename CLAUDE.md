@@ -63,7 +63,13 @@ Antes de adicionar foto nova, reduzir para no máximo 1600 px e JPEG qualidade ~
    **Fotos de terceiros** (croquis de 2013/2015, posts de outros escaladores): o Leandro decidiu (18/11/2026)
    mantê-las, com crédito em cada foto, até tirar fotos novas no setor. Ao receber foto nova de um bloco,
    trocar a foto antiga e redesenhar as linhas (pedir o risco quando o ângulo mudar muito).
-6. `rascunho: true` mantém a página fora do sitemap, com `noindex`, e sem botão na croquiteca.
+6. **8a.nu:** `oitoa` (URL) na linha vira uma etiqueta "8a.nu" clicável na tabela; `oitoa` no croqui vira o botão
+   do topo. O 8a.nu bloqueia acesso automatizado (Cloudflare, 403): não tentar contornar. A lista entra por export
+   manual do Leandro (texto copiado da página ou planilha) e passa por
+   `python3 scripts/comparar_8a.py lista.tsv [--aplicar]`, que casa com o croqui (nomes normalizados, variantes
+   SDS/em pé/extension), aponta duplicatas do 8a.nu e graus divergentes (Font≈V) e, com `--aplicar`, grava os
+   links só nas linhas casadas com segurança. O backlog fica no cofre (nota "Castelinhos — backlog de linhas do 8a.nu").
+7. `rascunho: true` mantém a página fora do sitemap, com `noindex`, e sem botão na croquiteca.
    Tirar o rascunho só quando o Leandro aprovar.
 
 ### Croquiteca
