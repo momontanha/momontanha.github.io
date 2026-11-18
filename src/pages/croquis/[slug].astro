@@ -175,17 +175,9 @@ const numeros = [
   ))}
 
   <section class="fecho">
-    <div>
-      <h2>Créditos e fontes</h2>
-      <ul>{d.creditos.map((c) => <li>{c}</li>)}</ul>
-    </div>
-    <div>
-      <h2>Histórico de versões</h2>
-      <ol class="historico">
-        {[...d.historico].reverse().map((h) => <li><span class="hist-versao">v{h.versao}</span><span class="hist-data">{dataBR(h.data)}</span><p>{h.mudancas}</p></li>)}
-      </ol>
-      <p class="pequeno">Viu algo errado ou abriu uma linha nova? Fale comigo para entrar na próxima versão.</p>
-    </div>
+    <h2>Créditos e fontes</h2>
+    <ul>{d.creditos.map((c) => <li>{c}</li>)}</ul>
+    <p class="pequeno">Viu algo errado ou abriu uma linha nova? Fale comigo para entrar na próxima versão.</p>
   </section>
 </Base>
 
@@ -293,17 +285,12 @@ const numeros = [
   .links-bloco { font-size: 0.9rem; margin: 0.4rem 0 0.6rem; }
 
   /* ---------- fecho ---------- */
-  .fecho { display: grid; grid-template-columns: 1fr 1fr; gap: 2.4rem; margin: 3.5rem 0 1rem; padding-top: 1.5rem; border-top: 3px solid var(--titulo); }
+  .fecho { margin: 3.5rem 0 1rem; padding-top: 1.5rem; border-top: 3px solid var(--titulo); max-width: 52rem; }
   .fecho h2 { font-size: 1.5rem; text-transform: uppercase; margin: 0 0 0.6rem; }
   .fecho ul { padding-left: 1.1rem; font-size: 0.92rem; }
-  .historico { list-style: none; padding: 0; margin: 0 0 1rem; }
-  .historico li { display: grid; grid-template-columns: 3.2rem 1fr; gap: 0 0.8rem; padding: 0.5rem 0; border-top: 1px solid var(--linha); }
-  .hist-versao { font-family: var(--titulos); font-weight: 700; font-size: 1.2rem; color: var(--destaque); grid-row: span 2; }
-  .hist-data { font-size: 0.8rem; color: var(--cinza); }
-  .historico p { margin: 0.1rem 0 0; font-size: 0.9rem; }
 
   @media (max-width: 760px) {
-    .abertura, .fecho { grid-template-columns: 1fr; gap: 1.4rem; }
+    .abertura { grid-template-columns: 1fr; gap: 1.4rem; }
     .abertura-lado { position: static; }
     .galeria-2 { grid-template-columns: 1fr; }
     .bloco { padding: 0.9rem 0.9rem 0.4rem; }
@@ -356,6 +343,6 @@ const numeros = [
     .inicio-bloco { break-inside: avoid; }
     .bloco-cabeca { break-after: avoid; }
     .linhas li { break-inside: avoid; }
-    .fecho { break-before: page; border-top: 0; padding-top: 0; margin-top: 0; }
+    .fecho { break-inside: avoid; margin-top: 8mm; }
   }
 </style>
