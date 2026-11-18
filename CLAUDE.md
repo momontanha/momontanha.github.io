@@ -44,7 +44,8 @@ Antes de adicionar foto nova, reduzir para no máximo 1600 px e JPEG qualidade ~
 ### Croqui próprio: linha nova ou correção
 1. Editar `src/content/croquis/<slug>.md` (adicionar a linha no bloco certo; criar o bloco se precisar).
 2. **Sempre** subir a `versao` e adicionar uma entrada em `historico` dizendo o que mudou.
-   - Correção pequena ou linha nova: `0.1 → 0.2`. Revisão grande/primeira publicação oficial: `→ 1.0`.
+   - Correção pequena ou linha nova: `0.1 → 0.2`. A série 0.x é o croqui em construção (o Castelinhos foi publicado
+     na v0.2, em 18/11/2026). `1.0` só quando o setor estiver completo, com fotos próprias de todos os blocos.
 3. Fotos do bloco: `src/assets/croquis/<slug>/<bloco>.jpg` na lista `fotos` do bloco (`imagem`, `credito`).
    Cada linha diz em qual foto está o traço (`foto: 2`; padrão 1). As linhas são numeradas dentro de cada bloco
    (1, 2, 3… na ordem do arquivo; `n` fixa outro número) e o número aparece no início e no topo do traço. Mapas do subsetor vão em `mapas`
