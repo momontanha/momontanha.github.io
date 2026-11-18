@@ -43,6 +43,9 @@ jobs:
             case "$nome" in *-rascunho) continue ;; esac
             if ! gh release view "$nome" >/dev/null 2>&1; then
               gh release create "$nome" "$pdf" --title "$nome" --notes "PDF gerado automaticamente a partir do commit ${GITHUB_SHA::7}."
+            else
+              # mesma versão publicada de novo (ajuste de layout, por exemplo): atualiza o PDF guardado
+              gh release upload "$nome" "$pdf" --clobber
             fi
           done
       - uses: actions/upload-pages-artifact@v3
