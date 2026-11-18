@@ -21,8 +21,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       # Com domínio próprio: SITE_URL=https://momontanha.com e BASE_PATH=/ (em Settings → Variables)
-      SITE_URL: ${{ vars.SITE_URL || 'https://lcechinel.github.io' }}
-      BASE_PATH: ${{ vars.BASE_PATH || '/momontanha' }}
+      SITE_URL: ${{ vars.SITE_URL || 'https://momontanha.github.io' }}
+      BASE_PATH: ${{ vars.BASE_PATH || '/' }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4

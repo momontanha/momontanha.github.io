@@ -4,10 +4,10 @@ import sitemap from '@astrojs/sitemap';
 import { readdirSync, readFileSync } from 'node:fs';
 
 // Endereço do site. Enquanto não tiver domínio próprio, fica no GitHub Pages:
-//   https://lcechinel.github.io/momontanha/
+//   https://momontanha.github.io/  (repositório momontanha/momontanha.github.io)
 // Com domínio (ex.: momontanha.com), basta definir SITE_URL=https://momontanha.com e BASE_PATH=/
-const site = process.env.SITE_URL ?? 'https://lcechinel.github.io';
-const base = process.env.BASE_PATH ?? '/momontanha';
+const site = process.env.SITE_URL ?? 'https://momontanha.github.io';
+const base = process.env.BASE_PATH ?? '/';
 
 // Croquis marcados como rascunho ficam fora do sitemap (e a página leva noindex).
 const rascunhos = readdirSync('./src/content/croquis')

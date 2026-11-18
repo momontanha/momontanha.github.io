@@ -12,7 +12,7 @@ import { chromium } from 'playwright';
 import { servir } from './servidor-estatico.mjs';
 
 const PORTA = 4329;
-const base = (process.env.BASE_PATH ?? '/momontanha').replace(/\/$/, '');
+const base = (process.env.BASE_PATH ?? '/').replace(/\/$/, '');
 const raiz = `http://127.0.0.1:${PORTA}${base}`;
 
 const servidor = await servir({ pasta: 'dist', base, porta: PORTA });
