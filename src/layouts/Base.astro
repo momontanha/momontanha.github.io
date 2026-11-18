@@ -24,6 +24,12 @@ const menu = [
 <html lang="pt-BR">
   <head>
     <meta charset="utf-8" />
+    <script is:inline>
+      // aplica o tema salvo antes de pintar a página (evita piscar)
+      try { const t = localStorage.getItem('tema'); if (t === 'claro' || t === 'escuro') document.documentElement.dataset.tema = t; } catch {}
+    </script>
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#23402f" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{tituloCompleto}</title>
     <meta name="description" content={descricao} />
@@ -49,6 +55,9 @@ const menu = [
       </a>
       <nav aria-label="Principal">
         {menu.map((m) => <a href={m.href} aria-current={atual.startsWith(m.href) ? 'page' : undefined}>{m.rotulo}</a>)}
+        <button class="botao-tema" type="button" aria-label="Alternar modo claro ou escuro" title="Modo claro / escuro">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2" /><path d="M12 3a9 9 0 0 1 0 18Z" fill="currentColor" /></svg>
+        </button>
       </nav>
     </header>
     <main>
@@ -62,5 +71,14 @@ const menu = [
       </p>
       <p class="pequeno">Momontanha — relatos de montanha e croquiteca do Paraná. Croquis pessoais e informais: confirme sempre na rocha.</p>
     </footer>
+    <script is:inline>
+      document.querySelector('.botao-tema')?.addEventListener('click', () => {
+        const raiz = document.documentElement;
+        const escuroAgora = raiz.dataset.tema ? raiz.dataset.tema === 'escuro' : matchMedia('(prefers-color-scheme: dark)').matches;
+        const novo = escuroAgora ? 'claro' : 'escuro';
+        raiz.dataset.tema = novo;
+        try { localStorage.setItem('tema', novo); } catch {}
+      });
+    </script>
   </body>
 </html>
