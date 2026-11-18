@@ -37,6 +37,7 @@ const descricao = `Croqui de ${d.tipo} ${d.setor} — ${d.regiao}, ${d.municipio
     <ul class="botoes nao-imprimir">
       <li><a class="botao" href={pdf} download>Baixar PDF<small>versão {d.versao}</small></a></li>
       {mapa && <li><a class="botao secundario" href={mapa}>Ver no mapa<small>{d.coordenadas!.join(', ')}</small></a></li>}
+      {d.oitoa && <li><a class="botao secundario" href={d.oitoa} rel="noopener">8a.nu<small>cadenas registradas</small></a></li>}
     </ul>
   </header>
 
@@ -101,7 +102,7 @@ const descricao = `Croqui de ${d.tipo} ${d.setor} — ${d.regiao}, ${d.municipio
               {b.linhas.map((l) => (
                 <tr>
                   <td><span class="num" style={`--cor:${CORES_FAIXA[faixaGrau(l.grau)]}`}>{l.n}</span></td>
-                  <td><strong>{l.nome}</strong>{l.saida === 'sentado' && ' (SDS)'}{l.descricao && <div class="pequeno">{l.descricao}</div>}</td>
+                  <td><strong>{l.nome}</strong>{l.saida === 'sentado' && ' (SDS)'}{l.oitoa && <a class="link-8a" href={l.oitoa} rel="noopener" title="Ver cadenas no 8a.nu">8a.nu</a>}{l.descricao && <div class="pequeno">{l.descricao}</div>}</td>
                   <td>{l.grau}</td>
                   <td class="pequeno">{[l.conquista, l.ano].filter(Boolean).join(', ')}</td>
                 </tr>
@@ -144,6 +145,7 @@ const descricao = `Croqui de ${d.tipo} ${d.setor} — ${d.regiao}, ${d.municipio
   .bloco { margin: 1.2rem 0 1.8rem; }
   .bloco table { break-inside: avoid; }
   .links-bloco { font-size: 0.9rem; margin: 0.2rem 0 0.6rem; }
+  .link-8a { margin-left: 0.45rem; font-size: 0.7rem; font-weight: 700; text-decoration: none; border: 1px solid currentColor; border-radius: 4px; padding: 0 0.3rem; vertical-align: 1px; }
   .mapas { display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: 0.8rem; margin: 0.8rem 0 1.2rem; }
   .mapa { margin: 0; break-inside: avoid; }
   .mapa img { width: 100%; height: auto; border-radius: 6px; border: 1px solid var(--linha); }

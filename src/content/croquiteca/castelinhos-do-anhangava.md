@@ -10,6 +10,9 @@ links:
   - rotulo: "Croqui do Setor Lenhador (2015)"
     url: "https://drive.google.com/file/d/1FDw8Bg6fN6MHQZOLZfUiJ_cDlwAuidnK/view?usp=sharing"
     tipo: "drive"
+  - rotulo: "Cadenas no 8a.nu"
+    url: "https://www.8a.nu/crags/bouldering/brazil/anhangava"
+    tipo: "8a"
 croqui: castelinhos-anhangava
 coordenadas: [-25.387897, -49.018662]
 tags: ["anhangava", "castelinhos", "castelinhos do anhangava", "granito", "morro anhangava"]

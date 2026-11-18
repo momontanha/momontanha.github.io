@@ -17,7 +17,7 @@ const relatos = defineCollection({
     }),
 });
 
-const tipoLink = z.enum(['drive', 'pdf', 'guia', 'wikiloc', 'mapa', 'fotos', 'instagram', 'formulario', 'externo']);
+const tipoLink = z.enum(['drive', 'pdf', 'guia', 'wikiloc', 'mapa', 'fotos', 'instagram', 'formulario', '8a', 'externo']);
 
 /** Croquiteca: um verbete por setor/montanha, com links para croquis, guias e acesso. */
 const croquiteca = defineCollection({
@@ -56,6 +56,8 @@ const linha = z.object({
   foto: z.number().int().min(1).default(1),
   /** de onde veio a informação, quando não é do autor */
   fonte: z.string().optional(),
+  /** página da linha no 8a.nu (cadenas, graus sugeridos, comentários) */
+  oitoa: z.string().url().optional(),
 });
 
 /** Croquis próprios: dados estruturados que viram página web e PDF versionado. */
@@ -75,6 +77,8 @@ const croquis = defineCollection({
       capa_credito: z.string().optional(),
       coordenadas: z.tuple([z.number(), z.number()]).optional(),
       escala: z.string().default('V (Hueco)'),
+      /** página do setor/crag no 8a.nu */
+      oitoa: z.string().url().optional(),
       creditos: z.array(z.string()).default([]),
       subsetores: z.array(
         z.object({
