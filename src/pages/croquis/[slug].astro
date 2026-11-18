@@ -108,7 +108,7 @@ const descricao = `Croqui de ${d.tipo} ${d.setor} — ${d.regiao}, ${d.municipio
 <style is:global>
   .pagina-croqui .selo { display: inline-block; background: var(--verde); color: var(--papel); padding: 0.2rem 0.7rem; border-radius: 99px; font-size: 0.9rem; }
   .pagina-croqui .capa-croqui { margin: 1rem 0; }
-  .pagina-croqui .capa-croqui img { width: 100%; max-height: 34rem; object-fit: cover; border-radius: 10px; }
+  .pagina-croqui .capa-croqui img { display: block; width: auto; max-width: 100%; max-height: 34rem; margin: 0 auto; border-radius: 10px; }
   .pagina-croqui figcaption { font-size: 0.8rem; color: var(--cinza); }
   .ficha { display: grid; grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr)); gap: 0.8rem; background: #fff; border: 1px solid var(--linha); border-radius: 10px; padding: 1rem; }
   .ficha div { margin: 0; } .ficha dt { font-size: 0.75rem; text-transform: uppercase; color: var(--cinza); letter-spacing: 0.05em; } .ficha dd { margin: 0; font-weight: 600; }
