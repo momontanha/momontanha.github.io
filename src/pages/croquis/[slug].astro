@@ -106,11 +106,11 @@ const descricao = `Croqui de ${d.tipo} ${d.setor} — ${d.regiao}, ${d.municipio
 </Base>
 
 <style is:global>
-  .pagina-croqui .selo { display: inline-block; background: var(--verde); color: var(--papel); padding: 0.2rem 0.7rem; border-radius: 99px; font-size: 0.9rem; }
+  .pagina-croqui .selo { display: inline-block; background: var(--marca); color: var(--sobre-marca); padding: 0.2rem 0.7rem; border-radius: 99px; font-size: 0.9rem; }
   .pagina-croqui .capa-croqui { margin: 1rem 0; }
   .pagina-croqui .capa-croqui img { display: block; width: auto; max-width: 100%; max-height: 34rem; margin: 0 auto; border-radius: 10px; }
   .pagina-croqui figcaption { font-size: 0.8rem; color: var(--cinza); }
-  .ficha { display: grid; grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr)); gap: 0.8rem; background: #fff; border: 1px solid var(--linha); border-radius: 10px; padding: 1rem; }
+  .ficha { display: grid; grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr)); gap: 0.8rem; background: var(--superficie); border: 1px solid var(--linha); border-radius: 10px; padding: 1rem; }
   .ficha div { margin: 0; } .ficha dt { font-size: 0.75rem; text-transform: uppercase; color: var(--cinza); letter-spacing: 0.05em; } .ficha dd { margin: 0; font-weight: 600; }
   .ficha .coord { white-space: nowrap; }
   .texto-croqui { margin: 1.5rem 0; max-width: none; }
@@ -118,16 +118,17 @@ const descricao = `Croqui de ${d.tipo} ${d.setor} — ${d.regiao}, ${d.municipio
   .legenda li { display: flex; align-items: center; gap: 0.4rem; }
   .traco { display: inline-block; width: 2rem; height: 0; border-top: 4px solid var(--cor); }
   .traco[data-projeto] { border-top-style: dashed; }
+  .traco { box-shadow: 0 0 0 1px var(--linha); }
   .subsetor { margin-top: 2.5rem; }
-  .subsetor > h2 { background: var(--verde); color: var(--papel); padding: 0.4rem 0.8rem; border-radius: 6px; }
+  .subsetor > h2 { background: var(--marca); color: var(--sobre-marca); padding: 0.4rem 0.8rem; border-radius: 6px; }
   .bloco { margin: 1.2rem 0 1.8rem; break-inside: avoid; }
   .bloco h3 { margin-bottom: 0.3rem; }
-  .pagina-croqui table { width: 100%; border-collapse: collapse; background: #fff; font-size: 0.95rem; table-layout: fixed; }
+  .pagina-croqui table { width: 100%; border-collapse: collapse; background: var(--superficie); font-size: 0.95rem; table-layout: fixed; }
   .bloco th:nth-child(1) { width: 2.6rem; } .bloco th:nth-child(2) { width: 42%; } .bloco th:nth-child(3) { width: 4.5rem; }
   .creditos th:nth-child(1) { width: 4rem; } .creditos th:nth-child(2) { width: 9rem; }
   .pagina-croqui th, .pagina-croqui td { text-align: left; padding: 0.35rem 0.5rem; border-bottom: 1px solid var(--linha); vertical-align: top; }
   .pagina-croqui th { font-size: 0.75rem; text-transform: uppercase; color: var(--cinza); letter-spacing: 0.04em; }
-  .num { display: inline-grid; place-items: center; width: 1.6rem; height: 1.6rem; border-radius: 50%; background: var(--cor); color: #fff; font-weight: 700; font-size: 0.85rem; }
+  .num { display: inline-grid; place-items: center; width: 1.6rem; height: 1.6rem; border-radius: 50%; background: var(--cor); color: #fff; font-weight: 700; font-size: 0.85rem; box-shadow: 0 0 0 1px var(--linha); }
   .creditos { margin-top: 2.5rem; }
 
   @page { size: A4; margin: 14mm 12mm 16mm; }

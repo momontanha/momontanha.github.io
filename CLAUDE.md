@@ -12,6 +12,9 @@ riscadas, e o Claude transforma em arquivos aqui.
 - Endereço: `SITE_URL` + `BASE_PATH` (padrão `https://momontanha.github.io` + `/`; repositório `momontanha/momontanha.github.io`, na organização gratuita `momontanha`).
   Com domínio próprio: variáveis do repositório `SITE_URL=https://dominio` e `BASE_PATH=/`, mais o arquivo `public/CNAME`.
 - Links internos nas páginas `.astro` sempre com `url('/caminho/')` de `src/lib/util.ts` (respeita o base).
+- **Cores e modo escuro:** variáveis em `src/styles/global.css` com `light-dark(claro, escuro)` (`--fundo`, `--superficie`,
+  `--tinta`, `--titulo`, `--link`, `--marca`…). O tema segue o sistema; o botão do topo grava `data-tema` (claro/escuro)
+  no `localStorage`. Não usar cor fixa (`#fff`) em fundo/texto: usar as variáveis. Impressão/PDF é sempre claro.
 
 ## Comandos
 - `npm run build` — site + PDFs em `dist/` (PDFs em `dist/pdf/`).
