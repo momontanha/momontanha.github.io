@@ -22,7 +22,7 @@ creditos:
 - 'Histórico do setor: relatos reunidos no croqui de 2013, incluindo o de Edson Struminski, morador do Anhangava.'
 historico:
 - {versao: '0.1', data: 2026-11-17, mudancas: 'Primeira versão. Junta as 36 linhas do croqui de 2013 e as 26 do Setor Lenhador (2015), ainda sem fotos. Graus como nos croquis originais.'}
-- {versao: '0.2', data: 2026-11-18, mudancas: 'Fotos dos blocos e mapas dos subsetores reaproveitados dos croquis de 2013 e 2015, com as linhas antigas apagadas e redesenhadas no padrão do site. Foto nova do bloco Orelinha. Novo subsetor Entrada, com o bloco Catedral (5 linhas abertas em 2026) e a fenda nova atrás da Barbacã. Entram duas linhas que só aparecem nos topos de 2015 (Virada V0 e Apitoxina em pé V3) e notas sobre graus que divergem entre as fontes. As linhas passam a ser numeradas dentro de cada bloco, com o número no início e no topo de cada linha.'}
+- {versao: '0.2', data: 2026-11-18, mudancas: 'Fotos dos blocos e mapas dos subsetores reaproveitados dos croquis de 2013 e 2015, com as linhas antigas apagadas e redesenhadas no padrão do site. Foto nova do bloco Orelinha. Novo subsetor Entrada, com o bloco Catedral (5 linhas abertas em 2026) e a fenda Ciclone, atrás da Barbacã. Entram duas linhas que só aparecem nos topos de 2015 (Virada V0 e Apitoxina em pé V3) e notas sobre graus que divergem entre as fontes. As linhas passam a ser numeradas dentro de cada bloco, com o número no início e no topo de cada linha.'}
 subsetores:
 - nome: Entrada
   descricao: 'Blocos logo no começo do setor, à direita da trilha, pouco antes de chegar ao Setor de Cima. Ficavam escondidos no mato e apareceram depois dos incêndios do fim de 2025; desde 2026 a galera vem limpando e abrindo linhas. Ainda tem rocha solta e esfarelando: cuidado.'
@@ -51,7 +51,7 @@ subsetores:
     - rotulo: Reel no Instagram
       url: https://www.instagram.com/reel/Dfxo_hVquS3/
     linhas:
-    - {nome: Fenda (nome a definir), grau: 'V4?', descricao: 'Limpa em 2026 e escalada guiando em móvel (sugestão: 7b). Para fazer de boulder, falta terminar a base. Não se sabe se já tinha sido escalada nem se tem nome: se souber da história, avise.', conquista: Leandro Cechinel (em móvel), ano: 2026, traco: '44.2,55.2 45.5,51.0 49.8,50.5 51.8,48.5 51.2,43.1 49.6,42.1 49.8,30.6 47.9,25.6 47.4,15.0'}
+    - {nome: Ciclone, grau: 'V4?', descricao: 'Fenda limpa em 2026 e encadenada de corda, guiando em móvel, em 14/11/2026 (sugestão: 7b). Para fazer de boulder, falta terminar a base. Nome sugerido pelo Leandro: se a linha já tinha nome ou história, avise.', conquista: 'Leandro Cechinel (em móvel, 14/11/2026)', ano: 2026, traco: '44.2,55.2 45.5,51.0 49.8,50.5 51.8,48.5 51.2,43.1 49.6,42.1 49.8,30.6 47.9,25.6 47.4,15.0'}
 - nome: Setor de Cima
   descricao: Dá acesso aos outros setores e tem vista para o Morro do Anhangava. Os primeiros boulders do Castelinhos foram abertos aqui nos anos 90, nos blocos Caverna, Piano e Rala Punho.
   blocos:
@@ -279,7 +279,7 @@ subsetores:
 
 O Castelinhos é um conjunto de blocos de **granito** aos pés do **Morro do Anhangava**, a cerca de 1.000 m de altitude, perto do **Parque Estadual da Serra da Baitaca** e a uns 30 km de Curitiba. É o setor de boulder mais frequentado do Anhangava. Os blocos ficam em cinco subsetores: a **Entrada** (blocos que apareceram depois do incêndio de 2025), **de Cima**, **do Meio**, **de Baixo** e **Lenhador**.
 
-Este é um croqui pessoal e informal. Ele junta o croqui de 2013, que ficou inacabado, o croqui do Setor Lenhador (2015) e as linhas abertas depois disso, como as do bloco Catedral e a fenda atrás da Barbacã. A ideia é ir completando aos poucos, versão a versão.
+Este é um croqui pessoal e informal. Ele junta o croqui de 2013, que ficou inacabado, o croqui do Setor Lenhador (2015) e as linhas abertas depois disso, como as do bloco Catedral e a fenda Ciclone, atrás da Barbacã. A ideia é ir completando aos poucos, versão a versão.
 
 ## Acesso
 
