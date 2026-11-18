@@ -20,17 +20,32 @@ const desenhos = linhas
     return { ...l, pts, cor: CORES_FAIXA[faixa], projeto: faixa === 'projeto' };
   });
 const r = esp * 0.022;
+// Linhas que saem do mesmo ponto: afasta os círculos numerados para não ficarem um em cima do outro.
+const colocados: [number, number][] = [];
+for (const d of desenhos) {
+  let [x, y] = d.pts[0];
+  let passo = 0;
+  while (colocados.some(([cx, cy]) => Math.hypot(cx - x, cy - y) < r * 2.1) && passo < 12) {
+    passo++;
+    const lado = passo % 2 === 1 ? 1 : -1;
+    x = d.pts[0][0] + lado * Math.ceil(passo / 2) * r * 2.2;
+    x = Math.min(Math.max(x, r), W - r);
+  }
+  colocados.push([x, y]);
+  (d as any).marca = [x, y];
+}
 ---
 <figure class="foto-linhas">
   <div class="quadro">
-    <Image src={foto} alt={alt} width={1600} />
+    <Image src={foto} alt={alt} width={1400} format="jpg" quality={80} />
     <svg viewBox={`0 0 ${W} ${H}`} aria-hidden="true">
       {desenhos.map((d) => (
         <g>
           <polyline points={d.pts.map((p) => p.join(',')).join(' ')} fill="none" stroke="#fff" stroke-width={esp * 0.011} stroke-linecap="round" stroke-linejoin="round" opacity="0.85" />
           <polyline points={d.pts.map((p) => p.join(',')).join(' ')} fill="none" stroke={d.cor} stroke-width={esp * 0.006} stroke-linecap="round" stroke-linejoin="round" stroke-dasharray={d.projeto ? `${esp * 0.02} ${esp * 0.012}` : undefined} />
-          <circle cx={d.pts[0][0]} cy={d.pts[0][1]} r={r} fill={d.cor} stroke="#fff" stroke-width={esp * 0.004} />
-          <text x={d.pts[0][0]} y={d.pts[0][1]} dy="0.35em" text-anchor="middle" font-size={r * 1.25} font-weight="700" fill="#fff" font-family="system-ui, sans-serif">{d.n}</text>
+          {((d as any).marca[0] !== d.pts[0][0]) && <line x1={d.pts[0][0]} y1={d.pts[0][1]} x2={(d as any).marca[0]} y2={(d as any).marca[1]} stroke={d.cor} stroke-width={esp * 0.003} />}
+          <circle cx={(d as any).marca[0]} cy={(d as any).marca[1]} r={r} fill={d.cor} stroke="#fff" stroke-width={esp * 0.004} />
+          <text x={(d as any).marca[0]} y={(d as any).marca[1]} dy="0.35em" text-anchor="middle" font-size={r * 1.25} font-weight="700" fill="#fff" font-family="system-ui, sans-serif">{d.n}</text>
         </g>
       ))}
     </svg>
@@ -38,9 +53,11 @@ const r = esp * 0.022;
   {credito && <figcaption>{credito}</figcaption>}
 </figure>
 <style>
-  .foto-linhas { margin: 0.8rem 0; break-inside: avoid; }
-  .quadro { position: relative; line-height: 0; }
-  .quadro :global(img) { width: 100%; height: auto; border-radius: 6px; }
+  .foto-linhas { margin: 0.8rem 0; break-inside: avoid; text-align: center; }
+  /* o quadro abraça a foto, para o SVG das linhas ficar exatamente por cima dela */
+  .quadro { position: relative; line-height: 0; width: fit-content; max-width: 100%; margin: 0 auto; }
+  .quadro :global(img) { display: block; width: auto; max-width: 100%; height: auto; max-height: 80vh; border-radius: 6px; }
+  @media print { .quadro :global(img) { max-height: 140mm; } }
   .quadro svg { position: absolute; inset: 0; width: 100%; height: 100%; }
   figcaption { font-size: 0.8rem; color: var(--cinza); margin-top: 0.3rem; }
 </style>

@@ -44,10 +44,17 @@ Antes de adicionar foto nova, reduzir para no máximo 1600 px e JPEG qualidade ~
 1. Editar `src/content/croquis/<slug>.md` (adicionar a linha no bloco certo; criar o bloco se precisar).
 2. **Sempre** subir a `versao` e adicionar uma entrada em `historico` dizendo o que mudou.
    - Correção pequena ou linha nova: `0.1 → 0.2`. Revisão grande/primeira publicação oficial: `→ 1.0`.
-3. Foto do bloco: `src/assets/croquis/<slug>/<bloco>.jpg` e `foto:` no bloco.
+3. Fotos do bloco: `src/assets/croquis/<slug>/<bloco>.jpg` na lista `fotos` do bloco (`imagem`, `credito`).
+   Cada linha diz em qual foto está o traço (`foto: 2`; padrão 1). Mapas do subsetor vão em `mapas`
+   (`imagem`, `legenda`, `credito`). Nos croquis as imagens saem em JPEG (`format="jpg"`): o Chromium põe
+   WebP sem compressão no PDF (68 MB em vez de 9 MB).
 4. Linha na foto (`traco`): pontos `x,y` em % da foto, do pé ao topo. Se o Leandro mandar a foto
    riscada (cor forte) + a original: `python3 scripts/extrair_linha.py riscada.jpg --original original.jpg`.
    Conferir o resultado olhando a página gerada.
+   **Topo antigo** (página de PDF com foto + linhas coloridas desenhadas por cima, como os croquis de 2013/2015):
+   `python3 scripts/importar_topo_antigo.py pagina.png --cores vermelho,amarelo,verde --saida src/assets/croquis/<slug>/<bloco>.jpg`
+   recorta a foto, tira o traço de cada cor (início = ponta mais baixa) e apaga as linhas antigas. Precisa de
+   `pip install opencv-python-headless`. Conferir lado a lado com o original; em travessia o início pode sair invertido.
 5. Créditos: quem conquistou (`conquista`, `ano`) e de onde veio a informação. Nunca copiar texto
    ou fotos de croqui de outra pessoa sem crédito e autorização; guias vendidos só entram como link (`tipo: guia`).
 6. `rascunho: true` mantém a página fora do sitemap, com `noindex`, e sem botão na croquiteca.
