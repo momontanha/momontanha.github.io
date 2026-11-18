@@ -22,7 +22,7 @@ creditos:
 - 'Histórico do setor: relatos reunidos no croqui de 2013, incluindo o de Edson Struminski, morador do Anhangava.'
 historico:
 - {versao: '0.1', data: 2026-11-17, mudancas: 'Primeira versão. Junta as 36 linhas do croqui de 2013 e as 26 do Setor Lenhador (2015), ainda sem fotos. Graus como nos croquis originais.'}
-- {versao: '0.2', data: 2026-11-18, mudancas: 'Fotos dos blocos e mapas dos subsetores reaproveitados dos croquis de 2013 e 2015, com as linhas antigas apagadas e redesenhadas no padrão do site. Novo subsetor Entrada, com o bloco Catedral (5 linhas abertas em 2026) e a fenda nova atrás da Barbacã. Entram duas linhas que só aparecem nos topos de 2015 (Virada V0 e Apitoxina em pé V3) e notas sobre graus que divergem entre as fontes. As linhas passam a ser numeradas dentro de cada bloco, com o número no início e no topo de cada linha.'}
+- {versao: '0.2', data: 2026-11-18, mudancas: 'Fotos dos blocos e mapas dos subsetores reaproveitados dos croquis de 2013 e 2015, com as linhas antigas apagadas e redesenhadas no padrão do site. Foto nova do bloco Orelinha. Novo subsetor Entrada, com o bloco Catedral (5 linhas abertas em 2026) e a fenda nova atrás da Barbacã. Entram duas linhas que só aparecem nos topos de 2015 (Virada V0 e Apitoxina em pé V3) e notas sobre graus que divergem entre as fontes. As linhas passam a ser numeradas dentro de cada bloco, com o número no início e no topo de cada linha.'}
 subsetores:
 - nome: Entrada
   descricao: 'Blocos logo no começo do setor, à direita da trilha, pouco antes de chegar ao Setor de Cima. Ficavam escondidos no mato e apareceram depois dos incêndios do fim de 2025; desde 2026 a galera vem limpando e abrindo linhas. Ainda tem rocha solta e esfarelando: cuidado.'
@@ -118,12 +118,12 @@ subsetores:
       credito: 'Foto: Croqui dos Castelinhos (2013), linhas redesenhadas'
   - nome: Orelinha
     linhas:
-    - {nome: Lance da Orelinha, grau: V2, traco: '22.2,79.8 30.0,41.4 66.9,38.8 61.7,20.2 51.9,4.2'}
-    - {nome: Orelhão, grau: V3, traco: '20.3,79.7 29.0,40.0 58.9,37.3 57.5,27.2 49.9,4.4'}
-    - {nome: Aresta da Orelinha, grau: V1, traco: '18.9,79.7 30.2,24.9 47.9,4.4'}
+    - {nome: Lance da Orelinha, grau: V2, traco: '39.0,82.0 37.0,70.0 36.5,60.0 37.0,46.0 37.5,38.3 66.0,36.3 64.0,22.0 58.0,9.0 55.0,3.0'}
+    - {nome: Orelhão, grau: V3, traco: '38.0,82.0 36.0,70.0 35.5,60.0 36.0,46.0 36.5,37.5 57.0,36.0 56.0,24.0 53.5,10.0 52.5,3.5'}
+    - {nome: Aresta da Orelinha, grau: V1, traco: '37.0,82.0 35.0,70.0 34.5,60.0 35.0,46.0 35.5,37.5 36.0,28.0 38.5,18.0 44.0,9.0 49.0,4.0'}
     fotos:
-    - imagem: ../../assets/croquis/castelinhos-anhangava/orelinha.jpg
-      credito: 'Foto: Croqui dos Castelinhos (2013), linhas redesenhadas'
+    - imagem: ../../assets/croquis/castelinhos-anhangava/orelinha-2026.jpg
+      credito: 'Foto: Leandro Cechinel (2026)'
   - nome: Medida
     linhas:
     - {nome: Medida Compensatória, grau: V7, descricao: 'Em 2013, a saída sentado ainda era projeto.', traco: '26.9,77.5 20.8,64.4 17.2,51.8 16.2,39.8 17.1,35.3 19.9,26.2 25.4,19.3 49.6,1.5'}
