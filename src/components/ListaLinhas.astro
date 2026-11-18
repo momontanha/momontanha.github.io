@@ -1,0 +1,24 @@
+---
+/** Lista numerada das linhas de um bloco: número, nome (com SDS/em pé e link do 8a.nu), descrição, conquista e grau. */
+import { faixaGrau, CORES_FAIXA } from '../lib/util';
+interface Linha { n: number; nome: string; grau: string; saida?: string; descricao?: string; conquista?: string; ano?: string | number; oitoa?: string }
+interface Props { linhas: Linha[] }
+const { linhas } = Astro.props;
+---
+<ol class="linhas">
+  {linhas.map((l) => {
+    const cor = CORES_FAIXA[faixaGrau(l.grau)];
+    const conquista = [l.conquista, l.ano].filter(Boolean).join(', ');
+    return (
+      <li>
+        <span class="num" style={`--cor:${cor}`}>{l.n}</span>
+        <div class="linha-texto">
+          <p class="linha-nome"><strong>{l.nome}</strong>{l.saida === 'sentado' && <span class="tag">SDS</span>}{l.saida === 'em pé' && <span class="tag">em pé</span>}{l.oitoa && <a class="link-8a" href={l.oitoa} rel="noopener" title="Ver cadenas no 8a.nu">8a.nu</a>}</p>
+          {l.descricao && <p class="linha-desc">{l.descricao}</p>}
+          {conquista && <p class="linha-conquista">Conquista: {conquista}</p>}
+        </div>
+        <span class="grau" style={`--cor:${cor}`}>{l.grau}</span>
+      </li>
+    );
+  })}
+</ol>

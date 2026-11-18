@@ -69,7 +69,15 @@ Antes de adicionar foto nova, reduzir para no máximo 1600 px e JPEG qualidade ~
    `python3 scripts/comparar_8a.py lista.tsv [--aplicar]`, que casa com o croqui (nomes normalizados, variantes
    SDS/em pé/extension), aponta duplicatas do 8a.nu e graus divergentes (Font≈V) e, com `--aplicar`, grava os
    links só nas linhas casadas com segurança. O backlog fica no cofre (nota "Castelinhos — backlog de linhas do 8a.nu").
-7. `rascunho: true` mantém a página fora do sitemap, com `noindex`, e sem botão na croquiteca.
+7. **Visual do croqui** (`src/pages/croquis/[slug].astro`): capa com foto cheia (`capa`, `capa_credito`, `capa_posicao`
+   para o enquadramento, `subtitulo`), página de abertura com o texto, a ficha e a legenda, foto de ambiente
+   (`abertura`: `imagem`, `legenda`, `credito`), índice dos subsetores e, em cada subsetor, `galeria` (fotos de
+   escalada: `imagem`, `legenda`, `credito`) antes dos mapas. Blocos são cartões; a lista de linhas é
+   `src/components/ListaLinhas.astro` (em bloco curto, até 6 linhas e 1 foto, ela fica junto da foto no PDF).
+   Títulos em Barlow Condensed, texto em Inter (pacotes @fontsource, embutidos no PDF). No PDF: capa sem margem,
+   rodapé com título, versão e página via `@page` (margin boxes) e `--rodape-esq`, fotos de bloco até 90 mm de
+   altura (cabem 2 blocos curtos por página). Foto boa de escalada ou de paisagem vale ouro: pedir ao Leandro.
+8. `rascunho: true` mantém a página fora do sitemap, com `noindex`, e sem botão na croquiteca.
    Tirar o rascunho só quando o Leandro aprovar.
 
 ### Croquiteca

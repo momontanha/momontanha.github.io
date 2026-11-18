@@ -30,17 +30,13 @@ try {
       await Promise.all([...document.images].map((img) => (img.complete ? null : new Promise((ok) => { img.onload = img.onerror = ok; }))));
     });
     const arquivo = `dist/pdf/${c.slug}-v${c.versao}${c.rascunho ? '-rascunho' : ''}.pdf`;
-    const rodape = `<div style="font: 8px system-ui, sans-serif; color: #555; width: 100%; padding: 0 12mm; display: flex; justify-content: space-between;">
-      <span>${c.titulo} — versão ${c.versao}${c.rascunho ? ' (rascunho)' : ''} · croqui pessoal, não oficial</span>
-      <span>Momontanha · <span class="pageNumber"></span>/<span class="totalPages"></span></span></div>`;
+    // texto do rodapé vem do título do croqui (as margens e a numeração estão no @page da página)
+    await pagina.evaluate((t) => document.documentElement.style.setProperty('--rodape-esq', JSON.stringify(t)), `${c.titulo} — versão ${c.versao}${c.rascunho ? ' (rascunho)' : ''} · croqui pessoal, não oficial`);
     await pagina.pdf({
       path: arquivo,
       format: 'A4',
       printBackground: true,
-      displayHeaderFooter: true,
-      headerTemplate: '<span></span>',
-      footerTemplate: rodape,
-      margin: { top: '14mm', bottom: '16mm', left: '12mm', right: '12mm' },
+      preferCSSPageSize: true, // margens vêm do @page da página (a capa sai sem margem)
     });
     console.log('PDF gerado:', arquivo);
   }

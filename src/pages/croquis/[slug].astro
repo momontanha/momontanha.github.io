@@ -1,9 +1,14 @@
 ---
+import '@fontsource/barlow-condensed/600.css';
+import '@fontsource/barlow-condensed/700.css';
+import '@fontsource/barlow-condensed/800.css';
+import '@fontsource-variable/inter';
 import { getCollection, render } from 'astro:content';
 import { Image, getImage } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
 import FotoLinhas from '../../components/FotoLinhas.astro';
-import { url, dataBR, faixaGrau, CORES_FAIXA } from '../../lib/util';
+import ListaLinhas from '../../components/ListaLinhas.astro';
+import { url, dataBR, faixaGrau, CORES_FAIXA, slugify } from '../../lib/util';
 
 export async function getStaticPaths() {
   const croquis = await getCollection('croquis');
@@ -13,9 +18,24 @@ const { croqui } = Astro.props;
 const { Content } = await render(croqui);
 const d = croqui.data;
 
+/** Grau V como número (V6/7 → 6 e 7), para as faixas de grau de cada bloco. */
+function numerosV(g: string): number[] {
+  const m = g.toLowerCase().match(/v(\d+)(?:\s*\/\s*v?(\d+))?/);
+  if (!m) return [];
+  return m[2] ? [Number(m[1]), Number(m[2])] : [Number(m[1])];
+}
+function faixaTexto(linhas: { grau: string }[]): string {
+  const vs = linhas.flatMap((l) => numerosV(l.grau));
+  if (!vs.length) return linhas.length ? 'projetos' : '';
+  const a = Math.min(...vs), b = Math.max(...vs);
+  return a === b ? `V${a}` : `V${a}–V${b}`;
+}
+const plural = (n: number, um: string, varios: string) => `${n} ${n === 1 ? um : varios}`;
+
 // Numeração das linhas: recomeça em 1 em cada bloco (o arquivo pode fixar outro número com `n`).
 const subsetores = d.subsetores.map((s) => ({
   ...s,
+  id: slugify(s.nome),
   blocos: s.blocos.map((b) => ({ ...b, linhas: b.linhas.map((l, i) => ({ ...l, n: l.n ?? i + 1 })) })),
 }));
 const todas = subsetores.flatMap((s) => s.blocos.flatMap((b) => b.linhas));
@@ -27,149 +47,315 @@ const faixas = [
   ['facil', 'V0–V2'], ['medio', 'V3–V5'], ['dificil', 'V6–V8'], ['muito-dificil', 'V9+'], ['projeto', 'projeto'],
 ] as const;
 const descricao = `Croqui de ${d.tipo} ${d.setor} — ${d.regiao}, ${d.municipio}. ${todas.length} linhas em ${totalBlocos} blocos. Versão ${d.versao}, web e PDF.`;
+const numeros = [
+  [todas.length, 'linhas'], [totalBlocos, 'blocos'], [subsetores.length, 'subsetores'], [faixaTexto(todas), 'graus'],
+] as const;
 ---
 <Base titulo={d.titulo} descricao={descricao} imagem={og} noindex={d.rascunho} classe="pagina-croqui">
   {d.rascunho && <p class="aviso faixa-rascunho">Rascunho — esta versão ainda não foi publicada na croquiteca.</p>}
-  <header class="cabeca-croqui">
-    <p class="meta"><a href={url('/croquiteca/')}>Croquiteca</a> · {d.regiao}</p>
-    <h1>{d.titulo}</h1>
-    <p class="selo">Versão {d.versao} · atualizado em {dataBR(d.atualizado)} · croqui pessoal, não oficial</p>
-    <ul class="botoes nao-imprimir">
-      <li><a class="botao" href={pdf} download>Baixar PDF<small>versão {d.versao}</small></a></li>
-      {mapa && <li><a class="botao secundario" href={mapa}>Ver no mapa<small>{d.coordenadas!.join(', ')}</small></a></li>}
-      {d.oitoa && <li><a class="botao secundario" href={d.oitoa} rel="noopener">8a.nu<small>cadenas registradas</small></a></li>}
-    </ul>
-  </header>
 
-  {d.capa && (
-    <figure class="capa-croqui">
-      <Image src={d.capa} alt={`${d.setor}`} width={1600} format="jpg" quality={80} loading="eager" />
-      {d.capa_credito && <figcaption>{d.capa_credito}</figcaption>}
+  <section class="capa">
+    {d.capa && <Image class="capa-img" src={d.capa} alt="" width={2000} format="jpg" quality={82} loading="eager" style={`object-position:${d.capa_posicao}`} />}
+    <div class="capa-sombra"></div>
+    <div class="capa-conteudo">
+      <p class="capa-sobre"><a href={url('/croquiteca/')}>Croquiteca Momontanha</a> · croqui pessoal</p>
+      <h1>{d.setor}</h1>
+      <p class="capa-sub">{d.subtitulo ?? d.titulo}</p>
+      <p class="capa-local">{d.regiao} · {d.municipio}</p>
+      <ul class="numeros">
+        {numeros.map(([v, rot]) => <li><strong>{v}</strong><span>{rot}</span></li>)}
+      </ul>
+      <p class="capa-versao">Versão {d.versao} · {dataBR(d.atualizado)}</p>
+    </div>
+    {d.capa_credito && <p class="capa-legenda">{d.capa_credito}</p>}
+  </section>
+
+  <nav class="acoes nao-imprimir" aria-label="Ações">
+    <a class="botao" href={pdf} download>Baixar PDF<small>versão {d.versao}</small></a>
+    {mapa && <a class="botao secundario" href={mapa}>Ver no mapa<small>{d.coordenadas!.join(', ')}</small></a>}
+    {d.oitoa && <a class="botao secundario" href={d.oitoa} rel="noopener">8a.nu<small>cadenas registradas</small></a>}
+  </nav>
+
+  <section class="abertura">
+    <div class="abertura-texto"><Content /></div>
+    <aside class="abertura-lado">
+      <dl class="ficha">
+        <div><dt>Local</dt><dd>{d.municipio}</dd></div>
+        <div><dt>Estilo</dt><dd>{d.tipo}</dd></div>
+        <div><dt>Linhas</dt><dd>{todas.length} em {totalBlocos} blocos</dd></div>
+        <div><dt>Escala</dt><dd>{d.escala}</dd></div>
+        {d.coordenadas && <div><dt>Coordenadas</dt><dd class="coord">{d.coordenadas.join(', ')}</dd></div>}
+      </dl>
+      <div class="legenda">
+        <h2>Como ler o croqui</h2>
+        <ul>
+          {faixas.map(([f, rot]) => <li><span class="traco" style={`--cor:${CORES_FAIXA[f]}`} data-projeto={f === 'projeto' ? '' : undefined}></span>{rot}</li>)}
+        </ul>
+        <p class="exemplo"><span class="marca-inicio">1</span> início da linha <span class="marca-topo">1</span> topo</p>
+        <p class="pequeno">Linhas numeradas dentro de cada bloco. SDS = saída sentado. Graus sugeridos: confirme na rocha.</p>
+      </div>
+    </aside>
+  </section>
+
+  {d.abertura && (
+    <figure class="foto-larga abertura-foto">
+      <Image src={d.abertura.imagem} alt={d.abertura.legenda ?? ''} width={1800} format="jpg" quality={80} />
+      <figcaption>{[d.abertura.legenda, d.abertura.credito].filter(Boolean).join(' · ')}</figcaption>
     </figure>
   )}
 
-  <dl class="ficha">
-    <div><dt>Local</dt><dd>{d.municipio}</dd></div>
-    <div><dt>Estilo</dt><dd>{d.tipo}</dd></div>
-    <div><dt>Linhas</dt><dd>{todas.length} em {totalBlocos} blocos</dd></div>
-    <div><dt>Escala</dt><dd>{d.escala}</dd></div>
-    {d.coordenadas && <div><dt>Coordenadas</dt><dd class="coord">{d.coordenadas.join(', ')}</dd></div>}
-  </dl>
+  <nav class="indice" aria-label="Subsetores">
+    <h2>Neste croqui</h2>
+    <ol>
+      {subsetores.map((s, i) => (
+        <li><a href={`#${s.id}`}>
+          <span class="indice-num">{String(i + 1).padStart(2, '0')}</span>
+          <span class="indice-nome">{s.nome}</span>
+          <span class="indice-meta">{plural(s.blocos.length, 'bloco', 'blocos')} · {plural(s.blocos.reduce((n, b) => n + b.linhas.length, 0), 'linha', 'linhas')}</span>
+        </a></li>
+      ))}
+    </ol>
+  </nav>
 
-  <div class="prosa texto-croqui"><Content /></div>
-
-  <section class="legenda">
-    <h2>Legenda</h2>
-    <ul>
-      {faixas.map(([f, rot]) => <li><span class="traco" style={`--cor:${CORES_FAIXA[f]}`} data-projeto={f === 'projeto' ? '' : undefined}></span>{rot}</li>)}
-    </ul>
-    <p class="pequeno">As linhas são numeradas dentro de cada bloco. O número aparece nas duas pontas da linha: círculo cheio no início e vazado no topo. SDS = saída sentado. Graus sugeridos: confirme na rocha.</p>
-  </section>
-
-  {subsetores.map((s) => (
-    <section class="subsetor">
-      <h2>{s.nome}</h2>
-      {s.descricao && <p>{s.descricao}</p>}
+  {subsetores.map((s, i) => (
+    <section class="subsetor" id={s.id}>
+      <header class="sub-cabeca">
+        <span class="sub-num">{String(i + 1).padStart(2, '0')}</span>
+        <div>
+          <h2>{s.nome}</h2>
+          <p class="sub-meta">{plural(s.blocos.length, 'bloco', 'blocos')} · {plural(s.blocos.reduce((n, b) => n + b.linhas.length, 0), 'linha', 'linhas')} · {faixaTexto(s.blocos.flatMap((b) => b.linhas))}</p>
+        </div>
+      </header>
+      {s.descricao && <p class="sub-desc">{s.descricao}</p>}
+      {s.galeria.length > 0 && (
+        <div class={`galeria galeria-${Math.min(s.galeria.length, 2)}`}>
+          {s.galeria.map((g) => (
+            <figure class="foto-larga">
+              <Image src={g.imagem} alt={g.legenda ?? ''} width={1600} format="jpg" quality={82} />
+              <figcaption>{[g.legenda, g.credito].filter(Boolean).join(' · ')}</figcaption>
+            </figure>
+          ))}
+        </div>
+      )}
       {s.mapas.length > 0 && (
         <div class="mapas">
           {s.mapas.map((m) => (
             <figure class="mapa">
               <Image src={m.imagem} alt={m.legenda ?? `Mapa do ${s.nome}`} width={960} format="jpg" quality={85} />
-              {(m.legenda || m.credito) && <figcaption>{[m.legenda, m.credito].filter(Boolean).join(' — ')}</figcaption>}
+              {(m.legenda || m.credito) && <figcaption>{[m.legenda, m.credito].filter(Boolean).join(' · ')}</figcaption>}
             </figure>
           ))}
         </div>
       )}
       {s.blocos.map((b) => (
-        <article class="bloco">
+        <article class="bloco" id={`${s.id}-${slugify(b.nome)}`}>
           {/* título + descrição + primeira foto andam juntos na impressão */}
           <div class="inicio-bloco">
-            <h3>{b.nome}</h3>
-            {b.descricao && <p>{b.descricao}</p>}
+            <header class="bloco-cabeca">
+              <h3>{b.nome}</h3>
+              <span class="bloco-meta">{plural(b.linhas.length, 'linha', 'linhas')}{faixaTexto(b.linhas) && ` · ${faixaTexto(b.linhas)}`}</span>
+            </header>
+            {b.descricao && <p class="bloco-desc">{b.descricao}</p>}
             {b.fotos.slice(0, 1).map((f) => (
               <FotoLinhas foto={f.imagem} alt={`Bloco ${b.nome}${b.fotos.length > 1 ? ' (foto 1)' : ''}`} linhas={b.linhas.filter((l) => l.foto === 1)} credito={f.credito} />
             ))}
+            {/* bloco curto: a lista anda junto com a foto (não fica sozinha na página seguinte do PDF) */}
+            {b.fotos.length <= 1 && b.linhas.length <= 6 && <ListaLinhas linhas={b.linhas} />}
           </div>
-          {b.links.length > 0 && (
-            <p class="links-bloco nao-imprimir">{b.links.map((l, i) => <>{i > 0 && ' · '}<a href={l.url} rel="noopener">{l.rotulo}</a></>)}</p>
-          )}
           {b.fotos.slice(1).map((f, i) => (
             <FotoLinhas foto={f.imagem} alt={`Bloco ${b.nome} (foto ${i + 2})`} linhas={b.linhas.filter((l) => l.foto === i + 2)} credito={f.credito} />
           ))}
-          <table>
-            <thead><tr><th>Nº</th><th>Linha</th><th>Grau</th><th>Conquista</th></tr></thead>
-            <tbody>
-              {b.linhas.map((l) => (
-                <tr>
-                  <td><span class="num" style={`--cor:${CORES_FAIXA[faixaGrau(l.grau)]}`}>{l.n}</span></td>
-                  <td><strong>{l.nome}</strong>{l.saida === 'sentado' && ' (SDS)'}{l.oitoa && <a class="link-8a" href={l.oitoa} rel="noopener" title="Ver cadenas no 8a.nu">8a.nu</a>}{l.descricao && <div class="pequeno">{l.descricao}</div>}</td>
-                  <td>{l.grau}</td>
-                  <td class="pequeno">{[l.conquista, l.ano].filter(Boolean).join(', ')}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          {!(b.fotos.length <= 1 && b.linhas.length <= 6) && <ListaLinhas linhas={b.linhas} />}
+          {b.links.length > 0 && (
+            <p class="links-bloco nao-imprimir">{b.links.map((l, i) => <>{i > 0 && ' · '}<a href={l.url} rel="noopener">{l.rotulo}</a></>)}</p>
+          )}
         </article>
       ))}
     </section>
   ))}
 
-  <section class="creditos">
-    <h2>Créditos e fontes</h2>
-    <ul>{d.creditos.map((c) => <li>{c}</li>)}</ul>
-    <h2>Histórico de versões</h2>
-    <table>
-      <thead><tr><th>Versão</th><th>Data</th><th>O que mudou</th></tr></thead>
-      <tbody>{[...d.historico].reverse().map((h) => <tr><td>{h.versao}</td><td>{dataBR(h.data)}</td><td>{h.mudancas}</td></tr>)}</tbody>
-    </table>
-    <p class="pequeno">Viu algo errado ou abriu uma linha nova? Fale comigo para entrar na próxima versão.</p>
+  <section class="fecho">
+    <div>
+      <h2>Créditos e fontes</h2>
+      <ul>{d.creditos.map((c) => <li>{c}</li>)}</ul>
+    </div>
+    <div>
+      <h2>Histórico de versões</h2>
+      <ol class="historico">
+        {[...d.historico].reverse().map((h) => <li><span class="hist-versao">v{h.versao}</span><span class="hist-data">{dataBR(h.data)}</span><p>{h.mudancas}</p></li>)}
+      </ol>
+      <p class="pequeno">Viu algo errado ou abriu uma linha nova? Fale comigo para entrar na próxima versão.</p>
+    </div>
   </section>
 </Base>
 
 <style is:global>
-  .pagina-croqui .selo { display: inline-block; background: var(--marca); color: var(--sobre-marca); padding: 0.2rem 0.7rem; border-radius: 99px; font-size: 0.9rem; }
-  .pagina-croqui .capa-croqui { margin: 1rem 0; }
-  .pagina-croqui .capa-croqui img { display: block; width: auto; max-width: 100%; max-height: 34rem; margin: 0 auto; border-radius: 10px; }
-  .pagina-croqui figcaption { font-size: 0.8rem; color: var(--cinza); }
-  .ficha { display: grid; grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr)); gap: 0.8rem; background: var(--superficie); border: 1px solid var(--linha); border-radius: 10px; padding: 1rem; }
-  .ficha div { margin: 0; } .ficha dt { font-size: 0.75rem; text-transform: uppercase; color: var(--cinza); letter-spacing: 0.05em; } .ficha dd { margin: 0; font-weight: 600; }
-  .ficha .coord { white-space: nowrap; }
-  .texto-croqui { margin: 1.5rem 0; max-width: none; }
-  .legenda ul { display: flex; flex-wrap: wrap; gap: 0.6rem 1.4rem; list-style: none; padding: 0; margin: 0.3rem 0; }
-  .legenda li { display: flex; align-items: center; gap: 0.4rem; }
-  .traco { display: inline-block; width: 2rem; height: 0; border-top: 4px solid var(--cor); }
-  .traco[data-projeto] { border-top-style: dashed; }
-  .traco { box-shadow: 0 0 0 1px var(--linha); }
-  .subsetor { margin-top: 2.5rem; }
-  .subsetor > h2 { background: var(--marca); color: var(--sobre-marca); padding: 0.4rem 0.8rem; border-radius: 6px; }
-  .bloco { margin: 1.2rem 0 1.8rem; }
-  .bloco table { break-inside: avoid; }
-  .links-bloco { font-size: 0.9rem; margin: 0.2rem 0 0.6rem; }
-  .link-8a { margin-left: 0.45rem; font-size: 0.7rem; font-weight: 700; text-decoration: none; border: 1px solid currentColor; border-radius: 4px; padding: 0 0.3rem; vertical-align: 1px; }
-  .mapas { display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: 0.8rem; margin: 0.8rem 0 1.2rem; }
-  .mapa { margin: 0; break-inside: avoid; }
-  .mapa img { width: 100%; height: auto; border-radius: 6px; border: 1px solid var(--linha); }
-  .bloco h3 { margin-bottom: 0.3rem; }
-  .pagina-croqui table { width: 100%; border-collapse: collapse; background: var(--superficie); font-size: 0.95rem; table-layout: fixed; }
-  .bloco th:nth-child(1) { width: 2.6rem; } .bloco th:nth-child(2) { width: 42%; } .bloco th:nth-child(3) { width: 4.5rem; }
-  .creditos th:nth-child(1) { width: 4rem; } .creditos th:nth-child(2) { width: 9rem; }
-  .pagina-croqui th, .pagina-croqui td { text-align: left; padding: 0.35rem 0.5rem; border-bottom: 1px solid var(--linha); vertical-align: top; }
-  .pagina-croqui th { font-size: 0.75rem; text-transform: uppercase; color: var(--cinza); letter-spacing: 0.04em; }
-  .num { display: inline-grid; place-items: center; width: 1.6rem; height: 1.6rem; border-radius: 50%; background: var(--cor); color: #fff; font-weight: 700; font-size: 0.85rem; box-shadow: 0 0 0 1px var(--linha); }
-  .creditos { margin-top: 2.5rem; }
+  .pagina-croqui {
+    --titulos: 'Barlow Condensed', 'Arial Narrow', system-ui, sans-serif;
+    font-family: 'Inter Variable', system-ui, sans-serif;
+  }
+  .pagina-croqui main { padding-top: 0; }
+  .pagina-croqui h1, .pagina-croqui h2, .pagina-croqui h3 { font-family: var(--titulos); letter-spacing: 0.01em; }
 
-  @page { size: A4; margin: 14mm 12mm 16mm; }
+  /* ---------- capa ---------- */
+  .capa { position: relative; margin: 0 calc(50% - 50vw); height: min(84vh, 780px); min-height: 460px; color: #fff; overflow: hidden; background: #1b211d; }
+  .capa-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .capa-sombra { position: absolute; inset: 0; background: linear-gradient(180deg, rgb(0 0 0 / 0.15) 0%, rgb(0 0 0 / 0) 35%, rgb(0 0 0 / 0.55) 70%, rgb(0 0 0 / 0.85) 100%); }
+  .capa-conteudo { position: absolute; left: 0; right: 0; bottom: 0; padding: 0 max(1.2rem, calc((100vw - var(--largura)) / 2)) 2.4rem; }
+  .capa-sobre { margin: 0 0 0.4rem; font-size: 0.85rem; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.85; }
+  .capa-sobre a { color: #fff; }
+  .capa h1 { color: #fff; font-size: clamp(3.6rem, 12vw, 8.5rem); font-weight: 800; text-transform: uppercase; line-height: 0.85; margin: 0; letter-spacing: 0.005em; }
+  .capa-sub { font-family: var(--titulos); font-size: clamp(1.4rem, 3.4vw, 2.2rem); font-weight: 600; margin: 0.3rem 0 0; }
+  .capa-local { margin: 0.2rem 0 1.2rem; opacity: 0.85; }
+  .numeros { display: flex; flex-wrap: wrap; gap: 0.6rem 2.2rem; list-style: none; padding: 0.9rem 0 0; margin: 0; border-top: 1px solid rgb(255 255 255 / 0.35); max-width: 40rem; }
+  .numeros li { display: flex; flex-direction: column; }
+  .numeros strong { font-family: var(--titulos); font-size: 2.1rem; font-weight: 700; line-height: 1; }
+  .numeros span { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; opacity: 0.8; }
+  .capa-versao { display: inline-block; margin: 1.1rem 0 0; padding: 0.2rem 0.7rem; border: 1px solid rgb(255 255 255 / 0.5); border-radius: 99px; font-size: 0.8rem; }
+  .capa-legenda { position: absolute; right: 1rem; bottom: 0.6rem; margin: 0; font-size: 0.72rem; opacity: 0.75; max-width: 40%; text-align: right; }
+
+  .acoes { display: flex; flex-wrap: wrap; gap: 0.6rem; margin: 1.4rem 0 0.4rem; }
+
+  /* ---------- abertura ---------- */
+  .abertura { display: grid; grid-template-columns: minmax(0, 1.7fr) minmax(16rem, 1fr); gap: 2.4rem; margin: 2rem 0; align-items: start; }
+  .abertura-texto { font-size: 1.04rem; }
+  .abertura-texto > p:first-child { font-size: 1.2rem; line-height: 1.55; }
+  .abertura-texto h2 { font-size: 1.5rem; text-transform: uppercase; margin: 1.6rem 0 0.4rem; color: var(--titulo); }
+  .abertura-texto ul { padding-left: 1.1rem; }
+  .abertura-lado { display: flex; flex-direction: column; gap: 1.2rem; position: sticky; top: 1rem; }
+  .ficha { margin: 0; background: var(--superficie); border: 1px solid var(--linha); border-radius: 12px; padding: 1rem 1.1rem; display: grid; gap: 0.7rem; }
+  .ficha dt { font-size: 0.7rem; text-transform: uppercase; color: var(--cinza); letter-spacing: 0.08em; }
+  .ficha dd { margin: 0; font-weight: 600; }
+  .ficha .coord { white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .legenda { background: var(--superficie); border: 1px solid var(--linha); border-radius: 12px; padding: 1rem 1.1rem; }
+  .legenda h2 { font-size: 1.15rem; text-transform: uppercase; margin: 0 0 0.6rem; }
+  .legenda ul { display: grid; grid-template-columns: 1fr 1fr; gap: 0.45rem 1rem; list-style: none; padding: 0; margin: 0 0 0.7rem; font-size: 0.9rem; }
+  .legenda li { display: flex; align-items: center; gap: 0.5rem; }
+  .traco { display: inline-block; width: 1.8rem; height: 0; border-top: 4px solid var(--cor); border-radius: 2px; }
+  .traco[data-projeto] { border-top-style: dashed; }
+  .exemplo { display: flex; align-items: center; gap: 0.4rem; font-size: 0.85rem; margin: 0 0 0.4rem; }
+  .marca-inicio, .marca-topo { display: inline-grid; place-items: center; width: 1.3rem; height: 1.3rem; border-radius: 50%; font-size: 0.7rem; font-weight: 700; }
+  .marca-inicio { background: #1f6fd1; color: #fff; }
+  .marca-topo { background: #fff; color: #1d211e; border: 2px solid #1f6fd1; margin-left: 0.5rem; }
+
+  /* fotos largas (abertura e galerias dos subsetores) */
+  .foto-larga { margin: 0; }
+  .foto-larga img { display: block; width: 100%; height: auto; max-height: 34rem; object-fit: cover; border-radius: 12px; }
+  .foto-larga figcaption, .mapa figcaption { font-size: 0.8rem; color: var(--cinza); margin-top: 0.4rem; }
+  .abertura-foto { margin: 0 0 2.5rem; }
+  .abertura-foto img { max-height: 30rem; }
+
+  /* ---------- índice ---------- */
+  .indice { margin: 0 0 3rem; }
+  .indice h2 { font-size: 1.15rem; text-transform: uppercase; color: var(--cinza); margin: 0 0 0.8rem; letter-spacing: 0.06em; }
+  .indice ol { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr)); gap: 0.7rem; }
+  .indice a { display: grid; grid-template-columns: auto 1fr; gap: 0 0.7rem; padding: 0.8rem 0.9rem; background: var(--superficie); border: 1px solid var(--linha); border-radius: 12px; text-decoration: none; color: inherit; height: 100%; }
+  .indice a:hover { border-color: var(--link); }
+  .indice-num { grid-row: span 2; font-family: var(--titulos); font-weight: 800; font-size: 2rem; line-height: 1; color: var(--destaque); }
+  .indice-nome { font-family: var(--titulos); font-weight: 700; font-size: 1.25rem; line-height: 1.1; color: var(--titulo); }
+  .indice-meta { font-size: 0.8rem; color: var(--cinza); }
+
+  /* ---------- subsetor ---------- */
+  .subsetor { margin: 3.5rem 0 1rem; scroll-margin-top: 1rem; }
+  .sub-cabeca { display: flex; align-items: flex-end; gap: 1rem; padding-bottom: 0.7rem; border-bottom: 3px solid var(--titulo); margin-bottom: 1rem; }
+  .sub-num { font-family: var(--titulos); font-weight: 800; font-size: clamp(3rem, 7vw, 4.6rem); line-height: 0.8; color: var(--destaque); }
+  .sub-cabeca h2 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; text-transform: uppercase; margin: 0; line-height: 0.95; }
+  .sub-meta { margin: 0.3rem 0 0; color: var(--cinza); font-size: 0.9rem; }
+  .sub-desc { font-size: 1.05rem; max-width: 46rem; margin: 0 0 1.2rem; }
+  .galeria { display: grid; gap: 0.8rem; margin: 0 0 1.2rem; }
+  .galeria-2 { grid-template-columns: 1fr 1fr; }
+  .galeria-2 img { aspect-ratio: 16 / 10; }
+  /* mapas antigos são pequenos (~350 px): não esticar além de ~2x */
+  .mapas { display: grid; grid-template-columns: repeat(auto-fill, minmax(16rem, 26rem)); gap: 0.8rem; margin: 0 0 1.6rem; }
+  .mapa { margin: 0; }
+  .mapa img { width: 100%; height: auto; border-radius: 10px; border: 1px solid var(--linha); display: block; }
+
+  /* ---------- bloco ---------- */
+  .bloco { background: var(--superficie); border: 1px solid var(--linha); border-radius: 14px; padding: 1.1rem 1.2rem 0.6rem; margin: 0 0 1.4rem; }
+  .bloco-cabeca { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; flex-wrap: wrap; margin-bottom: 0.2rem; }
+  .bloco-cabeca h3 { font-size: 1.7rem; font-weight: 700; text-transform: uppercase; margin: 0; }
+  .bloco-meta { font-size: 0.8rem; color: var(--cinza); text-transform: uppercase; letter-spacing: 0.06em; font-weight: 600; }
+  .bloco-desc { color: var(--tinta); margin: 0.2rem 0 0.6rem; font-size: 0.95rem; }
+  .bloco .foto-linhas { margin: 0.6rem 0; }
+  .bloco .foto-linhas figcaption { text-align: right; }
+
+  .linhas { list-style: none; padding: 0; margin: 0.4rem 0 0.4rem; }
+  .linhas li { display: grid; grid-template-columns: 2rem minmax(0, 1fr) auto; gap: 0.75rem; align-items: start; padding: 0.6rem 0; border-top: 1px solid var(--linha); break-inside: avoid; }
+  .linhas li:first-child { border-top: 0; }
+  .num { display: inline-grid; place-items: center; width: 1.75rem; height: 1.75rem; border-radius: 50%; background: var(--cor); color: #fff; font-weight: 700; font-size: 0.85rem; box-shadow: 0 0 0 2px var(--superficie), 0 0 0 3px var(--cor); margin-top: 0.05rem; }
+  .linha-texto p { margin: 0; }
+  .linha-nome { font-size: 1.02rem; }
+  .linha-desc { font-size: 0.88rem; color: var(--cinza); margin-top: 0.15rem !important; }
+  .linha-conquista { font-size: 0.78rem; color: var(--cinza); margin-top: 0.15rem !important; font-style: italic; }
+  .tag { margin-left: 0.45rem; font-size: 0.66rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--cinza); border: 1px solid var(--linha); border-radius: 4px; padding: 0 0.3rem; vertical-align: 2px; }
+  .grau { font-family: var(--titulos); font-weight: 700; font-size: 1.1rem; color: #fff; background: var(--cor); border-radius: 6px; padding: 0.05rem 0.55rem; white-space: nowrap; min-width: 3rem; text-align: center; }
+  .link-8a { margin-left: 0.45rem; font-size: 0.66rem; font-weight: 700; text-decoration: none; border: 1px solid currentColor; border-radius: 4px; padding: 0 0.3rem; vertical-align: 2px; }
+  .links-bloco { font-size: 0.9rem; margin: 0.4rem 0 0.6rem; }
+
+  /* ---------- fecho ---------- */
+  .fecho { display: grid; grid-template-columns: 1fr 1fr; gap: 2.4rem; margin: 3.5rem 0 1rem; padding-top: 1.5rem; border-top: 3px solid var(--titulo); }
+  .fecho h2 { font-size: 1.5rem; text-transform: uppercase; margin: 0 0 0.6rem; }
+  .fecho ul { padding-left: 1.1rem; font-size: 0.92rem; }
+  .historico { list-style: none; padding: 0; margin: 0 0 1rem; }
+  .historico li { display: grid; grid-template-columns: 3.2rem 1fr; gap: 0 0.8rem; padding: 0.5rem 0; border-top: 1px solid var(--linha); }
+  .hist-versao { font-family: var(--titulos); font-weight: 700; font-size: 1.2rem; color: var(--destaque); grid-row: span 2; }
+  .hist-data { font-size: 0.8rem; color: var(--cinza); }
+  .historico p { margin: 0.1rem 0 0; font-size: 0.9rem; }
+
+  @media (max-width: 760px) {
+    .abertura, .fecho { grid-template-columns: 1fr; gap: 1.4rem; }
+    .abertura-lado { position: static; }
+    .galeria-2 { grid-template-columns: 1fr; }
+    .bloco { padding: 0.9rem 0.9rem 0.4rem; }
+    .capa-legenda { display: none; }
+  }
+
+  /* ---------- PDF / impressão ---------- */
+  /* número de página e título no rodapé (margem da página); a capa sai sem margem e sem rodapé */
+  @page {
+    size: A4; margin: 13mm 13mm 15mm;
+    @bottom-left { content: var(--rodape-esq, 'Momontanha'); font: 7pt 'Inter Variable', system-ui, sans-serif; color: #6b736d; }
+    @bottom-right { content: 'momontanha.github.io  ·  ' counter(page) ' / ' counter(pages); font: 7pt 'Inter Variable', system-ui, sans-serif; color: #6b736d; }
+  }
+  @page :first { margin: 0; @bottom-left { content: none; } @bottom-right { content: none; } }
   @media print {
-    :root { font-size: 10.5pt; background: #fff; }
+    html, body, main, .pagina-croqui { background: #fff !important; }
+    :root { font-size: 9.6pt; }
     .topo-site, .rodape, .nao-imprimir, .faixa-rascunho { display: none !important; }
-    main { padding: 0; }
+    main { padding: 0 !important; }
     a { color: inherit; text-decoration: none; }
-    .pagina-croqui .capa-croqui img { max-height: 120mm; }
+    .pagina-croqui * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .capa { margin: 0; width: 210mm; height: 297mm; min-height: 0; break-after: page; }
+    .capa-conteudo { padding: 0 15mm 22mm; }
+    .capa h1 { font-size: 86pt; }
+    .capa-sub { font-size: 24pt; }
+    .numeros strong { font-size: 24pt; }
+    .capa-legenda { right: 15mm; bottom: 8mm; font-size: 7pt; }
+    .abertura { grid-template-columns: 1.6fr 1fr; gap: 8mm; margin: 0 0 6mm; }
+    .abertura-lado { position: static; }
+    .abertura-texto > p:first-child { font-size: 11pt; }
+    .abertura-texto h2 { margin-top: 4mm; }
+    .abertura-foto img { max-height: 70mm; }
+    .abertura-foto { margin: 0 0 6mm; break-inside: avoid; }
+    .indice { break-inside: avoid; margin: 0; }
+    .indice ol { grid-template-columns: repeat(3, 1fr); }
     .subsetor { break-before: page; margin-top: 0; }
-    .creditos { break-before: page; }
-    tr { break-inside: avoid; }
+    .sub-num { font-size: 40pt; }
+    .sub-cabeca h2 { font-size: 30pt; }
+    .galeria { break-inside: avoid; }
+    .galeria .foto-larga img { max-height: 95mm; }
+    .galeria-2 img { max-height: 60mm; }
+    .mapas { break-inside: avoid; }
+    .mapas { grid-template-columns: repeat(2, minmax(0, 85mm)); }
+    .mapa img { max-height: 65mm; object-fit: contain; }
+    .bloco { break-inside: auto; border-radius: 3mm; padding: 3.5mm 4.5mm 1.5mm; margin-bottom: 4mm; background: #fff; }
+    .bloco .quadro img { max-height: 90mm !important; }
+    .bloco-cabeca h3 { font-size: 15pt; }
+    .linhas li { padding: 1.6mm 0; }
+    .abertura-foto img { max-height: 115mm; }
     .inicio-bloco { break-inside: avoid; }
-    .bloco h3 { break-after: avoid; }
-    .subsetor > h2, .num, .selo, .traco { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .bloco-cabeca { break-after: avoid; }
+    .linhas li { break-inside: avoid; }
+    .fecho { break-before: page; border-top: 0; padding-top: 0; margin-top: 0; }
   }
 </style>
