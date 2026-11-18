@@ -89,6 +89,9 @@ const descricao = `Croqui de ${d.tipo} ${d.setor} — ${d.regiao}, ${d.municipio
               <FotoLinhas foto={f.imagem} alt={`Bloco ${b.nome}${b.fotos.length > 1 ? ' (foto 1)' : ''}`} linhas={b.linhas.filter((l) => l.foto === 1)} credito={f.credito} />
             ))}
           </div>
+          {b.links.length > 0 && (
+            <p class="links-bloco nao-imprimir">{b.links.map((l, i) => <>{i > 0 && ' · '}<a href={l.url} rel="noopener">{l.rotulo}</a></>)}</p>
+          )}
           {b.fotos.slice(1).map((f, i) => (
             <FotoLinhas foto={f.imagem} alt={`Bloco ${b.nome} (foto ${i + 2})`} linhas={b.linhas.filter((l) => l.foto === i + 2)} credito={f.credito} />
           ))}
@@ -140,6 +143,7 @@ const descricao = `Croqui de ${d.tipo} ${d.setor} — ${d.regiao}, ${d.municipio
   .subsetor > h2 { background: var(--marca); color: var(--sobre-marca); padding: 0.4rem 0.8rem; border-radius: 6px; }
   .bloco { margin: 1.2rem 0 1.8rem; }
   .bloco table { break-inside: avoid; }
+  .links-bloco { font-size: 0.9rem; margin: 0.2rem 0 0.6rem; }
   .mapas { display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: 0.8rem; margin: 0.8rem 0 1.2rem; }
   .mapa { margin: 0; break-inside: avoid; }
   .mapa img { width: 100%; height: auto; border-radius: 6px; border: 1px solid var(--linha); }

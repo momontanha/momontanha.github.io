@@ -18,11 +18,40 @@ creditos:
 - 'Setores de Cima, do Meio e de Baixo: Croqui dos Castelinhos (2013). O documento não traz o nome dos autores; fotos de Roniel Fonseca, Ale Oliveira e Tiago Nunes; mapas dos subsetores do Jornal de Montanha (2011).'
 - 'Setor Lenhador: Croqui do Setor Lenhador/Castelinhos, de Rafael Briones Matheus e Tiago Nunes (2015).'
 - 'Fotos dos blocos e mapas: tirados dos croquis de 2013 e 2015 (créditos em cada foto); as linhas foram apagadas e redesenhadas.'
+- 'Entrada, bloco Catedral: linhas, graus e fotos do post de @gfc.gabriel no Instagram (22/08/2026).'
 - 'Histórico do setor: relatos reunidos no croqui de 2013, incluindo o de Edson Struminski, morador do Anhangava.'
 historico:
 - {versao: '0.1', data: 2026-11-17, mudancas: 'Primeira versão. Junta as 36 linhas do croqui de 2013 e as 26 do Setor Lenhador (2015), ainda sem fotos. Graus como nos croquis originais.'}
-- {versao: '0.2', data: 2026-11-18, mudancas: 'Fotos dos blocos e mapas dos subsetores reaproveitados dos croquis de 2013 e 2015, com as linhas antigas apagadas e redesenhadas no padrão do site. Entram duas linhas que só aparecem nos topos de 2015 (Virada V0 e Apitoxina em pé V3) e notas sobre graus que divergem entre as fontes. As linhas passam a ser numeradas dentro de cada bloco, com o número no início e no topo de cada linha.'}
+- {versao: '0.2', data: 2026-11-18, mudancas: 'Fotos dos blocos e mapas dos subsetores reaproveitados dos croquis de 2013 e 2015, com as linhas antigas apagadas e redesenhadas no padrão do site. Novo subsetor Entrada, com o bloco Catedral (5 linhas abertas em 2026) e a fenda nova atrás da Barbacã. Entram duas linhas que só aparecem nos topos de 2015 (Virada V0 e Apitoxina em pé V3) e notas sobre graus que divergem entre as fontes. As linhas passam a ser numeradas dentro de cada bloco, com o número no início e no topo de cada linha.'}
 subsetores:
+- nome: Entrada
+  descricao: 'Blocos logo no começo do setor, à direita da trilha, pouco antes de chegar ao Setor de Cima. Ficavam escondidos no mato e apareceram depois dos incêndios do fim de 2025; desde 2026 a galera vem limpando e abrindo linhas. Ainda tem rocha solta e esfarelando: cuidado.'
+  blocos:
+  - nome: Catedral
+    descricao: Bloco alto, com bastante sombra durante o dia, principalmente de manhã. Aberto em 22/08/2026. Descida pela lateral, à direita da Barbacã (estreita e um pouco íngreme, com cuidado), ou pela trilha dos fundos do bloco, mais longa e tranquila.
+    fotos:
+    - imagem: ../../assets/croquis/castelinhos-anhangava/catedral-face-1.jpg
+      credito: 'Foto: @gfc.gabriel (Instagram), linhas redesenhadas'
+    - imagem: ../../assets/croquis/castelinhos-anhangava/catedral-face-2.jpg
+      credito: 'Foto: @gfc.gabriel (Instagram), linhas redesenhadas'
+    linhas:
+    - {nome: Bastião, grau: V0, conquista: Gabriel (@gfc.gabriel) e equipe, ano: 2026, traco: '13.4,61.4 18.5,51.6 27.1,37.8 36.6,23.9 45.1,13.8 52.1,9.0'}
+    - {nome: Ponte Levadiça, grau: V1, conquista: Gabriel (@gfc.gabriel) e equipe, ano: 2026, traco: '13.4,61.4 27.3,56.9 42.9,54.5 59.3,54.3 68.3,52.0 75.1,46.9 78.0,40.2 78.9,32.8 78.4,22.1 77.0,15.0'}
+    - {nome: Gárgula, grau: V1, conquista: Gabriel (@gfc.gabriel) e equipe, ano: 2026, traco: '56.3,66.6 55.9,58.8 55.4,44.9 55.6,31.0 55.6,20.5 55.4,11.1'}
+    - {nome: Torre de Cerco, grau: V1, conquista: Gabriel (@gfc.gabriel) e equipe, ano: 2026, traco: '21.1,45.4 22.2,35.8 24.1,28.1 26.1,20.1 27.6,12.3 29.2,2.6', foto: 2}
+    - {nome: Barbacã, grau: V3, conquista: Gabriel (@gfc.gabriel) e equipe, ano: 2026, traco: '68.1,51.9 66.5,43.1 65.1,35.0 64.3,32.0 62.0,29.7 57.2,26.8 53.9,25.1 51.9,22.4 50.7,18.6 50.2,13.0', foto: 2}
+  - nome: Fenda atrás da Barbacã
+    descricao: Bloco logo atrás do Catedral (lado da Barbacã). Tem uma parada dupla com chapeletas no topo, que dá para usar para isolar de top rope.
+    fotos:
+    - imagem: ../../assets/croquis/castelinhos-anhangava/fenda-atras-da-barbaca.jpg
+      credito: 'Foto: Leandro Cechinel'
+    links:
+    - rotulo: Vídeo da escalada em móvel (YouTube)
+      url: https://youtu.be/JeVSSgvygdg
+    - rotulo: Reel no Instagram
+      url: https://www.instagram.com/reel/Dfxo_hVquS3/
+    linhas:
+    - {nome: Fenda (nome a definir), grau: 'V4?', descricao: 'Limpa em 2026 e escalada guiando em móvel (sugestão: 7b). Para fazer de boulder, falta terminar a base. Não se sabe se já tinha sido escalada nem se tem nome: se souber da história, avise.', conquista: Leandro Cechinel (em móvel), ano: 2026, traco: '44.2,55.2 45.5,51.0 49.8,50.5 51.8,48.5 51.2,43.1 49.6,42.1 49.8,30.6 47.9,25.6 47.4,15.0'}
 - nome: Setor de Cima
   descricao: Dá acesso aos outros setores e tem vista para o Morro do Anhangava. Os primeiros boulders do Castelinhos foram abertos aqui nos anos 90, nos blocos Caverna, Piano e Rala Punho.
   blocos:
@@ -248,9 +277,9 @@ subsetores:
     credito: croqui do Setor Lenhador (2015)
 ---
 
-O Castelinhos é um conjunto de blocos de **granito** aos pés do **Morro do Anhangava**, a cerca de 1.000 m de altitude, perto do **Parque Estadual da Serra da Baitaca** e a uns 30 km de Curitiba. É o setor de boulder mais frequentado do Anhangava. Os blocos ficam em quatro subsetores: **de Cima**, **do Meio**, **de Baixo** e **Lenhador**.
+O Castelinhos é um conjunto de blocos de **granito** aos pés do **Morro do Anhangava**, a cerca de 1.000 m de altitude, perto do **Parque Estadual da Serra da Baitaca** e a uns 30 km de Curitiba. É o setor de boulder mais frequentado do Anhangava. Os blocos ficam em cinco subsetores: a **Entrada** (blocos que apareceram depois do incêndio de 2025), **de Cima**, **do Meio**, **de Baixo** e **Lenhador**.
 
-Este é um croqui pessoal e informal. Ele junta o croqui de 2013, que ficou inacabado, o croqui do Setor Lenhador (2015) e as linhas abertas depois disso. A ideia é ir completando aos poucos, versão a versão.
+Este é um croqui pessoal e informal. Ele junta o croqui de 2013, que ficou inacabado, o croqui do Setor Lenhador (2015) e as linhas abertas depois disso, como as do bloco Catedral e a fenda atrás da Barbacã. A ideia é ir completando aos poucos, versão a versão.
 
 ## Acesso
 

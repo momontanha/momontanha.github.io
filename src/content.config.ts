@@ -87,6 +87,8 @@ const croquis = defineCollection({
               descricao: z.string().optional(),
               /** fotos do bloco; cada linha diz em qual foto está o seu traço (campo `foto`) */
               fotos: z.array(z.object({ imagem: image(), credito: z.string().optional() })).default([]),
+              /** vídeos, posts e outras referências do bloco */
+              links: z.array(z.object({ rotulo: z.string(), url: z.string().url() })).default([]),
               linhas: z.array(linha).default([]),
             }),
           ),

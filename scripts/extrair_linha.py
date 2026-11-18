@@ -27,6 +27,20 @@ CORES = {
 }
 
 
+def simplificar(pts, eps):
+    """Ramer-Douglas-Peucker: tira pontos que não mudam o desenho."""
+    if len(pts) < 3:
+        return pts
+    a, b = pts[0], pts[-1]
+    ab = b - a
+    v = pts - a
+    d = np.abs(ab[0] * v[:, 1] - ab[1] * v[:, 0]) / (np.hypot(*ab) or 1e-9)
+    i = int(np.argmax(d))
+    if d[i] > eps:
+        return np.vstack([simplificar(pts[: i + 1], eps)[:-1], simplificar(pts[i:], eps)])
+    return np.array([a, b])
+
+
 def extrair(caminho, cor="vermelho", pontos=8, inverter=False, original=None):
     im = ImageOps.exif_transpose(Image.open(caminho)).convert("RGB")
     a = np.asarray(im).astype(int)
@@ -39,27 +53,51 @@ def extrair(caminho, cor="vermelho", pontos=8, inverter=False, original=None):
     ys, xs = np.nonzero(mascara)
     if len(xs) < 50:
         raise SystemExit(f"Não achei a linha {cor} na foto ({len(xs)} pixels). Tente outra --cor.")
-    p = np.column_stack([xs, ys]).astype(float)
-    centro = p.mean(axis=0)
-    # eixo principal da linha (funciona para linhas verticais, diagonais e travessias)
-    _, _, v = np.linalg.svd(p - centro, full_matrices=False)
-    eixo = v[0]
-    t = (p - centro) @ eixo
-    nbins = max(pontos * 6, 20)
-    bordas = np.linspace(t.min(), t.max(), nbins + 1)
-    medios = []
-    for i in range(nbins):
-        sel = (t >= bordas[i]) & (t <= bordas[i + 1])
-        if sel.sum() > 3:
-            medios.append(p[sel].mean(axis=0))
-    medios = np.array(medios)
-    # começa pelo ponto mais baixo da foto (maior y)
-    if medios[0][1] < medios[-1][1]:
-        medios = medios[::-1]
+    # segue o risco ponto a ponto (mantém curvas e cantos): agrupa em células, começa
+    # no ponto mais baixo e vai sempre para o vizinho mais próximo; depois simplifica.
+    diag = float(np.hypot(w, h))
+    # espessura do risco ≈ área / comprimento; a célula precisa ser mais larga que o risco,
+    # senão o caminho zigue-zagueia de um lado para o outro do traço
+    # (largura medida pela extensão do risco em cada linha/coluna da imagem: o marca-texto
+    # costuma ter falhas no meio, então contar pixels subestima a espessura)
+    def extensao_mediana(a, b):
+        ordem = np.argsort(a)
+        a, b = a[ordem], b[ordem]
+        cortes = np.flatnonzero(np.diff(a)) + 1
+        ext = [g.max() - g.min() + 1 for g in np.split(b, cortes)]
+        return float(np.median(ext))
+    espessura = min(extensao_mediana(ys, xs), extensao_mediana(xs, ys))
+    celula = int(max(4, diag / 160, espessura * 1.3))
+    chave = (ys // celula) * 100000 + (xs // celula)
+    pts = np.array([(xs[chave == k].mean(), ys[chave == k].mean()) for k in np.unique(chave)])
+    ordem = [int(np.argmax(pts[:, 1]))]
+    livres = set(range(len(pts))) - set(ordem)
+    while livres:
+        cand = np.array(sorted(livres))
+        dist = np.hypot(*(pts[cand] - pts[ordem[-1]]).T)
+        j = int(np.argmin(dist))
+        if dist[j] > celula * 4:  # resto solto longe do caminho: termina
+            break
+        ordem.append(int(cand[j]))
+        livres.discard(int(cand[j]))
+    cadeia = pts[ordem]
     if inverter:
-        medios = medios[::-1]
-    idx = np.linspace(0, len(medios) - 1, pontos).round().astype(int)
-    sel = medios[idx]
+        cadeia = cadeia[::-1]
+    # tolerância proporcional à espessura: o tremido da borda do risco não vira curva
+    sel = simplificar(cadeia, max(diag * 0.006, espessura * 0.8))
+    # tira "vai e volta" (ponto onde o caminho dá meia-volta), comum no canto de risco grosso
+    mudou = True
+    while mudou and len(sel) > 2:
+        mudou = False
+        for i in range(1, len(sel) - 1):
+            a, b = sel[i] - sel[i - 1], sel[i + 1] - sel[i]
+            cos = (a @ b) / ((np.hypot(*a) * np.hypot(*b)) or 1e-9)
+            if cos < -0.5:
+                sel = np.delete(sel, i, axis=0)
+                mudou = True
+                break
+    if len(sel) > pontos:  # ainda muitos pontos: amostra mantendo as pontas
+        sel = sel[np.linspace(0, len(sel) - 1, pontos).round().astype(int)]
     return " ".join(f"{x / w * 100:.1f},{y / h * 100:.1f}" for x, y in sel)
 
 
@@ -67,7 +105,7 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("foto")
     ap.add_argument("--cor", default="vermelho", choices=CORES)
-    ap.add_argument("--pontos", type=int, default=8)
+    ap.add_argument("--pontos", type=int, default=14, help="máximo de pontos")
     ap.add_argument("--inverter", action="store_true")
     ap.add_argument("--original", help="a mesma foto sem o risco")
     a = ap.parse_args()
