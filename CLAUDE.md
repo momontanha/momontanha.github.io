@@ -9,7 +9,7 @@ riscadas, e o Claude transforma em arquivos aqui.
 - **Astro 7** (site estático) · conteúdo em Markdown em `src/content/` · esquemas em `src/content.config.ts`.
 - **GitHub Pages** via `.github/workflows/publicar.yml`: todo push na `main` monta o site, gera os PDFs
   (Chromium/Playwright) e publica. PDFs de versões novas (não rascunho) viram **Release** com o nome do arquivo.
-- Endereço: `SITE_URL` + `BASE_PATH` (padrão `https://lcechinel.github.io` + `/momontanha`).
+- Endereço: `SITE_URL` + `BASE_PATH` (padrão `https://momontanha.github.io` + `/`; repositório `momontanha/momontanha.github.io`, na organização gratuita `momontanha`).
   Com domínio próprio: variáveis do repositório `SITE_URL=https://dominio` e `BASE_PATH=/`, mais o arquivo `public/CNAME`.
 - Links internos nas páginas `.astro` sempre com `url('/caminho/')` de `src/lib/util.ts` (respeita o base).
 
