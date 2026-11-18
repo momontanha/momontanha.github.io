@@ -49,12 +49,13 @@ main { padding: 1.5rem max(1rem, calc((100% - var(--largura)) / 2)) 3rem; }
 
 /* texto longo (relatos) */
 .prosa { max-width: var(--texto); margin: 0 auto; font-size: 1.07rem; }
-.prosa img { border-radius: 6px; display: block; margin: 1rem auto; }
-.prosa p:has(> img + img) { display: grid; grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr)); gap: 0.5rem; }
-.prosa p:has(> img + img) img { margin: 0; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+.prosa img { border-radius: 6px; display: block; margin: 1rem auto; width: auto; max-height: 85vh; }
+/* galerias (várias fotos seguidas): colunas com cada foto inteira, sem corte */
+.prosa p:has(> img + img) { columns: 3 13rem; column-gap: 0.5rem; }
+.prosa p:has(> img + img) img { width: 100%; max-height: none; margin: 0 0 0.5rem; break-inside: avoid; }
 .prosa img + em, .prosa p > em:only-child { display: block; text-align: center; color: var(--cinza); font-size: 0.9rem; margin-top: -0.6rem; }
 .capa-relato { max-width: var(--largura); margin: 0 auto 1.5rem; }
-.capa-relato img { width: 100%; max-height: 32rem; object-fit: cover; border-radius: 10px; }
+.capa-relato img { display: block; width: auto; max-width: 100%; max-height: 80vh; margin: 0 auto; border-radius: 10px; }
 .video { position: relative; aspect-ratio: 16 / 9; margin: 1.2rem 0; }
 .video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; border-radius: 8px; }
 
