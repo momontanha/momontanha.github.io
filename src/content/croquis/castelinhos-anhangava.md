@@ -118,7 +118,7 @@ subsetores:
       credito: 'Foto: Croqui dos Castelinhos (2013), linhas redesenhadas'
   - nome: Orelinha
     linhas:
-    - {nome: Lance da Orelinha, grau: V2, traco: '39.0,82.0 37.0,70.0 36.5,60.0 37.0,46.0 37.5,38.3 66.0,36.3 64.0,22.0 58.0,9.0 55.0,3.0'}
+    - {nome: Lance da Orelinha, grau: V2, traco: '39.0,82.0 37.0,70.0 36.5,60.0 37.0,46.0 37.5,38.3 72.0,36.0 70.5,22.0 66.5,9.0 63.5,2.5'}
     - {nome: Orelhão, grau: V3, traco: '38.0,82.0 36.0,70.0 35.5,60.0 36.0,46.0 36.5,37.5 57.0,36.0 56.0,24.0 53.5,10.0 52.5,3.5'}
     - {nome: Aresta da Orelinha, grau: V1, traco: '37.0,82.0 35.0,70.0 34.5,60.0 35.0,46.0 35.5,37.5 36.0,28.0 38.5,18.0 44.0,9.0 49.0,4.0'}
     fotos:
