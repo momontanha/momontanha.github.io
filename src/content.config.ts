@@ -95,7 +95,13 @@ const croquis = defineCollection({
 
 const paginas = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/paginas' }),
-  schema: z.object({ titulo: z.string(), wp_url: z.string().url().optional() }),
+  schema: ({ image }) =>
+    z.object({
+      titulo: z.string(),
+      foto: image().optional(),
+      foto_legenda: z.string().optional(),
+      wp_url: z.string().url().optional(),
+    }),
 });
 
 export const collections = { relatos, croquiteca, croquis, paginas };
