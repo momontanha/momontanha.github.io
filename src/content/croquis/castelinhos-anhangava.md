@@ -6,7 +6,7 @@ municipio: Quatro Barras (PR)
 tipo: boulder
 versao: '0.2'
 atualizado: 2026-11-18
-rascunho: true
+rascunho: false
 capa: ../../assets/wp/2022/01/lce_5838.jpg
 capa_credito: 'Foto: Momontanha'
 coordenadas:
@@ -22,7 +22,7 @@ creditos:
 - 'Histórico do setor: relatos reunidos no croqui de 2013, incluindo o de Edson Struminski, morador do Anhangava.'
 historico:
 - {versao: '0.1', data: 2026-11-17, mudancas: 'Primeira versão. Junta as 36 linhas do croqui de 2013 e as 26 do Setor Lenhador (2015), ainda sem fotos. Graus como nos croquis originais.'}
-- {versao: '0.2', data: 2026-11-18, mudancas: 'Fotos dos blocos e mapas dos subsetores reaproveitados dos croquis de 2013 e 2015, com as linhas antigas apagadas e redesenhadas no padrão do site. Foto nova do bloco Orelinha. Novo subsetor Entrada, com o bloco Catedral (5 linhas abertas em 2026) e a fenda Ciclone, atrás da Barbacã. Entram duas linhas que só aparecem nos topos de 2015 (Virada V0 e Apitoxina em pé V3) e notas sobre graus que divergem entre as fontes. As linhas passam a ser numeradas dentro de cada bloco, com o número no início e no topo de cada linha.'}
+- {versao: '0.2', data: 2026-11-18, mudancas: 'Fotos dos blocos e mapas dos subsetores reaproveitados dos croquis de 2013 e 2015, com as linhas antigas apagadas e redesenhadas no padrão do site. Foto nova do bloco Orelinha. Novo subsetor Entrada, com o bloco Catedral (5 linhas abertas em 2026) e a fenda Ciclone, atrás da Barbacã. Entram duas linhas que só aparecem nos topos de 2015 (Virada V0 e Apitoxina em pé V3) e notas sobre graus que divergem entre as fontes. As linhas passam a ser numeradas dentro de cada bloco, com o número no início e no topo de cada linha. Primeira versão publicada na croquiteca.'}
 subsetores:
 - nome: Entrada
   descricao: 'Blocos logo no começo do setor, à direita da trilha, pouco antes de chegar ao Setor de Cima. Ficavam escondidos no mato e apareceram depois dos incêndios do fim de 2025; desde 2026 a galera vem limpando e abrindo linhas. Ainda tem rocha solta e esfarelando: cuidado.'
