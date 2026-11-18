@@ -45,7 +45,8 @@ Antes de adicionar foto nova, reduzir para no máximo 1600 px e JPEG qualidade ~
 2. **Sempre** subir a `versao` e adicionar uma entrada em `historico` dizendo o que mudou.
    - Correção pequena ou linha nova: `0.1 → 0.2`. Revisão grande/primeira publicação oficial: `→ 1.0`.
 3. Fotos do bloco: `src/assets/croquis/<slug>/<bloco>.jpg` na lista `fotos` do bloco (`imagem`, `credito`).
-   Cada linha diz em qual foto está o traço (`foto: 2`; padrão 1). Mapas do subsetor vão em `mapas`
+   Cada linha diz em qual foto está o traço (`foto: 2`; padrão 1). As linhas são numeradas dentro de cada bloco
+   (1, 2, 3… na ordem do arquivo; `n` fixa outro número) e o número aparece no início e no topo do traço. Mapas do subsetor vão em `mapas`
    (`imagem`, `legenda`, `credito`). Nos croquis as imagens saem em JPEG (`format="jpg"`): o Chromium põe
    WebP sem compressão no PDF (68 MB em vez de 9 MB).
 4. Linha na foto (`traco`): pontos `x,y` em % da foto, do pé ao topo. Se o Leandro mandar a foto

@@ -13,11 +13,10 @@ const { croqui } = Astro.props;
 const { Content } = await render(croqui);
 const d = croqui.data;
 
-// Numeração contínua das linhas no croqui inteiro (se não vier no arquivo).
-let contador = 0;
+// Numeração das linhas: recomeça em 1 em cada bloco (o arquivo pode fixar outro número com `n`).
 const subsetores = d.subsetores.map((s) => ({
   ...s,
-  blocos: s.blocos.map((b) => ({ ...b, linhas: b.linhas.map((l) => ({ ...l, n: l.n ?? ++contador })) })),
+  blocos: s.blocos.map((b) => ({ ...b, linhas: b.linhas.map((l, i) => ({ ...l, n: l.n ?? i + 1 })) })),
 }));
 const todas = subsetores.flatMap((s) => s.blocos.flatMap((b) => b.linhas));
 const totalBlocos = subsetores.reduce((n, s) => n + s.blocos.length, 0);
@@ -63,7 +62,7 @@ const descricao = `Croqui de ${d.tipo} ${d.setor} — ${d.regiao}, ${d.municipio
     <ul>
       {faixas.map(([f, rot]) => <li><span class="traco" style={`--cor:${CORES_FAIXA[f]}`} data-projeto={f === 'projeto' ? '' : undefined}></span>{rot}</li>)}
     </ul>
-    <p class="pequeno">O número fica no início da linha. SDS = saída sentado. Graus sugeridos: confirme na rocha.</p>
+    <p class="pequeno">As linhas são numeradas dentro de cada bloco. O número aparece nas duas pontas da linha: círculo cheio no início e vazado no topo. SDS = saída sentado. Graus sugeridos: confirme na rocha.</p>
   </section>
 
   {subsetores.map((s) => (

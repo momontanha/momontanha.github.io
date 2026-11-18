@@ -21,7 +21,7 @@ creditos:
 - 'Histórico do setor: relatos reunidos no croqui de 2013, incluindo o de Edson Struminski, morador do Anhangava.'
 historico:
 - {versao: '0.1', data: 2026-11-17, mudancas: 'Primeira versão. Junta as 36 linhas do croqui de 2013 e as 26 do Setor Lenhador (2015), ainda sem fotos. Graus como nos croquis originais.'}
-- {versao: '0.2', data: 2026-11-18, mudancas: 'Fotos dos blocos e mapas dos subsetores reaproveitados dos croquis de 2013 e 2015, com as linhas antigas apagadas e redesenhadas no padrão do site. Entram duas linhas que só aparecem nos topos de 2015 (Virada V0 e Apitoxina em pé V3) e notas sobre graus que divergem entre as fontes.'}
+- {versao: '0.2', data: 2026-11-18, mudancas: 'Fotos dos blocos e mapas dos subsetores reaproveitados dos croquis de 2013 e 2015, com as linhas antigas apagadas e redesenhadas no padrão do site. Entram duas linhas que só aparecem nos topos de 2015 (Virada V0 e Apitoxina em pé V3) e notas sobre graus que divergem entre as fontes. As linhas passam a ser numeradas dentro de cada bloco, com o número no início e no topo de cada linha.'}
 subsetores:
 - nome: Setor de Cima
   descricao: Dá acesso aos outros setores e tem vista para o Morro do Anhangava. Os primeiros boulders do Castelinhos foram abertos aqui nos anos 90, nos blocos Caverna, Piano e Rala Punho.
