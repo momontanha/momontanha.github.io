@@ -50,7 +50,13 @@ Antes de adicionar foto nova, reduzir para no máximo 1600 px e JPEG qualidade ~
 3. Fotos do bloco: `src/assets/croquis/<slug>/<bloco>.jpg` na lista `fotos` do bloco (`imagem`, `credito`).
    Cada linha diz em qual foto está o traço (`foto: 2`; padrão 1). As linhas são numeradas dentro de cada bloco
    (1, 2, 3… na ordem do arquivo; `n` fixa outro número) e o número aparece no início e no topo do traço. Mapas do subsetor vão em `mapas`
-   (`imagem`, `legenda`, `credito`). Vídeos/posts do bloco: `links` (`rotulo`, `url`), só na versão web. Nos croquis as imagens saem em JPEG (`format="jpg"`): o Chromium põe
+   (`desenho` ou `imagem`, `legenda`, `credito`). **Mapas desenhados** (`desenho: <id>`): especificação em
+   `src/mapas/<id>.json`, num plano de 960×720 — `blocos` (contorno em pontos, suavizado; `ancora` = id do bloco no
+   croqui, ex. `setor-de-cima-caverna`, deixa o bloco escuro e clicável; sem `ancora` = bloco fora do croqui, claro),
+   `rotulo` (`x`,`y`,`a` ou `dentro`, `rot`, `tam`, `ancora` = ponto da guia), `trilhas` (`tipo: interditada`),
+   `areas` (`clareira`/`pedreira`), `textos` (`estilo`: setor, nota, outro, bloco) e `saidas` (seta `de`→`para`
+   + rótulo). Desenhado por `src/components/MapaDesenhado.astro` (vetor, acompanha o modo escuro). Para um setor
+   novo: pôr o mapa de referência numa grade de 960×720 e ler as coordenadas. Vídeos/posts do bloco: `links` (`rotulo`, `url`), só na versão web. Nos croquis as imagens saem em JPEG (`format="jpg"`): o Chromium põe
    WebP sem compressão no PDF (68 MB em vez de 9 MB).
 4. Linha na foto (`traco`): pontos `x,y` em % da foto, do pé ao topo. Se o Leandro mandar a foto
    riscada (cor forte) + a original: `python3 scripts/extrair_linha.py riscada.jpg --original original.jpg`.
