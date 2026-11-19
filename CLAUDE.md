@@ -59,7 +59,8 @@ Antes de adicionar foto nova, reduzir para no máximo 1600 px e JPEG qualidade ~
    `python3 scripts/importar_topo_antigo.py pagina.png --cores vermelho,amarelo,verde --saida src/assets/croquis/<slug>/<bloco>.jpg`
    recorta a foto, tira o traço de cada cor (início = ponta mais baixa) e apaga as linhas antigas. Precisa de
    `pip install opencv-python-headless`. Conferir lado a lado com o original; em travessia o início pode sair invertido.
-5. Créditos: quem conquistou (`conquista`, `ano`) e de onde veio a informação. Nunca copiar texto
+5. Créditos: quem conquistou (`conquista`, `ano`) e de onde veio a informação. **Fotos do próprio Leandro vão sem
+   crédito** (sem `credito` / sem "Foto: …"); só fotos de terceiros levam crédito. Nunca copiar texto
    ou fotos de croqui de outra pessoa sem crédito e autorização; guias vendidos só entram como link (`tipo: guia`).
    **Fotos de terceiros** (croquis de 2013/2015, posts de outros escaladores): o Leandro decidiu (18/11/2026)
    mantê-las, com crédito em cada foto, até tirar fotos novas no setor. Ao receber foto nova de um bloco,

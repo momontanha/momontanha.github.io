@@ -4,17 +4,16 @@ setor: Castelinhos
 regiao: Morro do Anhangava — Serra da Baitaca
 municipio: Quatro Barras (PR)
 tipo: boulder
-versao: '0.5'
+versao: '0.6'
 atualizado: 2026-11-19
 rascunho: false
 subtitulo: Boulder no Morro do Anhangava
 capa: ../../assets/wp/2022/01/lce_5838.jpg
-capa_credito: 'Cechinel na Caverna, ao pôr do sol · Foto: acervo Momontanha'
+capa_credito: 'Cechinel na Caverna, ao pôr do sol'
 capa_posicao: 58% 45%
 abertura:
   imagem: ../../assets/wp/2022/01/lce_5909.jpg
   legenda: Morro do Anhangava no fim da tarde
-  credito: 'Foto: acervo Momontanha'
 coordenadas:
 - -25.387897
 - -49.018662
@@ -33,6 +32,7 @@ historico:
 - {versao: '0.3', data: 2026-11-18, mudancas: 'Novo visual: capa com foto (Cechinel na Caverna ao pôr do sol), página de abertura com ficha e legenda, índice dos subsetores, fotos de escalada abrindo cada subsetor, blocos em cartões e graus em selo colorido. PDF mais enxuto (28 páginas), com 2 blocos por página e rodapé numerado.'}
 - {versao: '0.4', data: 2026-11-19, mudancas: 'Foto de abertura do Setor de Cima: sai a sequência na Caverna do croqui de 2013 e entra a foto do Cechinel na Caverna ao pôr do sol. Foto nova do bloco Cérebro, com a linha redesenhada.'}
 - {versao: '0.5', data: 2026-11-19, mudancas: 'Foto noturna do Cechinel no Satã entra na abertura do Setor de Cima, ao lado da foto na Caverna.'}
+- {versao: '0.6', data: 2026-11-19, mudancas: 'Fotos do Cechinel passam a sair sem crédito (capa, aberturas e blocos Orelinha, Cérebro e Ciclone). Fotos de terceiros continuam creditadas.'}
 subsetores:
 - nome: Entrada
   descricao: 'Blocos logo no começo do setor, à direita da trilha, pouco antes de chegar ao Setor de Cima. Ficavam escondidos no mato e apareceram depois dos incêndios do fim de 2025; desde 2026 a galera vem limpando e abrindo linhas. Ainda tem rocha solta e esfarelando: cuidado.'
@@ -54,7 +54,6 @@ subsetores:
     descricao: Bloco logo atrás do Catedral (lado da Barbacã). Tem uma parada dupla com chapeletas no topo, que dá para usar para isolar de top rope.
     fotos:
     - imagem: ../../assets/croquis/castelinhos-anhangava/fenda-atras-da-barbaca.jpg
-      credito: 'Foto: Leandro Cechinel'
     links:
     - rotulo: Vídeo da escalada em móvel (YouTube)
       url: https://youtu.be/JeVSSgvygdg
@@ -67,10 +66,8 @@ subsetores:
   galeria:
   - imagem: ../../assets/wp/2022/01/lce_5838.jpg
     legenda: 'Cechinel na Caverna, ao pôr do sol'
-    credito: 'Foto: acervo Momontanha'
   - imagem: ../../assets/croquis/castelinhos-anhangava/acao/sata-noturno.jpg
     legenda: 'Cechinel no Satã (V5), em sessão noturna'
-    credito: 'Foto: acervo Momontanha'
   blocos:
   - nome: Caverna
     descricao: O bloco mais conhecido do setor e ponto de referência para quem chega pela trilha principal do Anhangava.
@@ -103,7 +100,6 @@ subsetores:
     - {nome: Cérebro, grau: V2, traco: '24.0,57.0 33.0,52.5 41.5,47.5 60.0,46.0 75.0,44.0 86.0,41.5 87.0,32.0 85.5,22.5'}
     fotos:
     - imagem: ../../assets/croquis/castelinhos-anhangava/cerebro-2026.jpg
-      credito: 'Foto: Leandro Cechinel (2026)'
   - nome: Piano
     linhas:
     - {nome: Teclado, grau: V2, traco: '25.1,61.3 19.8,51.9 19.8,31.9 29.7,9.4'}
@@ -144,7 +140,6 @@ subsetores:
     - {nome: Aresta da Orelinha, grau: V1, traco: '37.0,82.0 35.0,70.0 34.5,60.0 35.0,46.0 35.5,37.5 36.0,28.0 38.5,18.0 44.0,9.0 49.0,4.0'}
     fotos:
     - imagem: ../../assets/croquis/castelinhos-anhangava/orelinha-2026.jpg
-      credito: 'Foto: Leandro Cechinel (2026)'
   - nome: Medida
     linhas:
     - {nome: Medida Compensatória, grau: V7, descricao: 'Em 2013, a saída sentado ainda era projeto.', traco: '26.9,77.5 20.8,64.4 17.2,51.8 16.2,39.8 17.1,35.3 19.9,26.2 25.4,19.3 49.6,1.5'}
