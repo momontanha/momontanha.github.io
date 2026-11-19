@@ -73,7 +73,8 @@ Antes de adicionar foto nova, reduzir para no máximo 1600 px e JPEG qualidade ~
 7. **Visual do croqui** (`src/pages/croquis/[slug].astro`): capa com foto cheia (`capa`, `capa_credito`, `capa_posicao`
    para o enquadramento, `subtitulo`), página de abertura com o texto, a ficha e a legenda, foto de ambiente
    (`abertura`: `imagem`, `legenda`, `credito`), índice dos subsetores e, em cada subsetor, `galeria` (fotos de
-   escalada: `imagem`, `legenda`, `credito`) antes dos mapas. Blocos são cartões; a lista de linhas é
+   escalada: `imagem`, `legenda`, `credito`) antes dos mapas; com 2 fotos, elas ficam lado a lado na mesma altura, cada uma
+   com largura proporcional ao formato (retrato e paisagem convivem sem corte). Blocos são cartões; a lista de linhas é
    `src/components/ListaLinhas.astro` (em bloco curto, até 6 linhas e 1 foto, ela fica junto da foto no PDF).
    Títulos em Barlow Condensed, texto em Inter (pacotes @fontsource, embutidos no PDF). No PDF: capa sem margem,
    rodapé com título, versão e página via `@page` (margin boxes) e `--rodape-esq`, fotos de bloco até 90 mm de

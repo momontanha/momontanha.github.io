@@ -129,8 +129,9 @@ const numeros = [
       {s.descricao && <p class="sub-desc">{s.descricao}</p>}
       {s.galeria.length > 0 && (
         <div class={`galeria galeria-${Math.min(s.galeria.length, 2)}`}>
+          {/* em dupla, cada foto ocupa largura proporcional ao formato: as duas ficam com a mesma altura, sem corte */}
           {s.galeria.map((g) => (
-            <figure class="foto-larga">
+            <figure class="foto-larga" style={`--prop:${(g.imagem.width / g.imagem.height).toFixed(3)}`}>
               <Image src={g.imagem} alt={g.legenda ?? ''} width={1600} format="jpg" quality={82} />
               <figcaption>{[g.legenda, g.credito].filter(Boolean).join(' · ')}</figcaption>
             </figure>
@@ -255,8 +256,9 @@ const numeros = [
   .sub-meta { margin: 0.3rem 0 0; color: var(--cinza); font-size: 0.9rem; }
   .sub-desc { font-size: 1.05rem; max-width: 46rem; margin: 0 0 1.2rem; }
   .galeria { display: grid; gap: 0.8rem; margin: 0 0 1.2rem; }
-  .galeria-2 { grid-template-columns: 1fr 1fr; }
-  .galeria-2 img { aspect-ratio: 16 / 10; }
+  .galeria-2 { display: flex; align-items: flex-start; }
+  .galeria-2 .foto-larga { flex: var(--prop) 1 0; min-width: 0; }
+  .galeria-2 img { max-height: none; }
   /* mapas antigos são pequenos (~350 px): não esticar além de ~2x */
   .mapas { display: grid; grid-template-columns: repeat(auto-fill, minmax(16rem, 26rem)); gap: 0.8rem; margin: 0 0 1.6rem; }
   .mapa { margin: 0; }
@@ -292,7 +294,7 @@ const numeros = [
   @media (max-width: 760px) {
     .abertura { grid-template-columns: 1fr; gap: 1.4rem; }
     .abertura-lado { position: static; }
-    .galeria-2 { grid-template-columns: 1fr; }
+    .galeria-2 { flex-direction: column; }
     .bloco { padding: 0.9rem 0.9rem 0.4rem; }
     .capa-legenda { display: none; }
   }
@@ -331,7 +333,7 @@ const numeros = [
     .sub-cabeca h2 { font-size: 30pt; }
     .galeria { break-inside: avoid; }
     .galeria .foto-larga img { max-height: 95mm; }
-    .galeria-2 img { max-height: 60mm; }
+    .galeria-2 img { max-height: none; }
     .mapas { break-inside: avoid; }
     .mapas { grid-template-columns: repeat(2, minmax(0, 85mm)); }
     .mapa img { max-height: 65mm; object-fit: contain; }

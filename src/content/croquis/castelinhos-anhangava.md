@@ -4,7 +4,7 @@ setor: Castelinhos
 regiao: Morro do Anhangava — Serra da Baitaca
 municipio: Quatro Barras (PR)
 tipo: boulder
-versao: '0.4'
+versao: '0.5'
 atualizado: 2026-11-19
 rascunho: false
 subtitulo: Boulder no Morro do Anhangava
@@ -32,6 +32,7 @@ historico:
 - {versao: '0.2', data: 2026-11-18, mudancas: 'Fotos dos blocos e mapas dos subsetores reaproveitados dos croquis de 2013 e 2015, com as linhas antigas apagadas e redesenhadas no padrão do site. Foto nova do bloco Orelinha. Novo subsetor Entrada, com o bloco Catedral (5 linhas abertas em 2026) e a fenda Ciclone, atrás da Barbacã. Entram duas linhas que só aparecem nos topos de 2015 (Virada V0 e Apitoxina em pé V3) e notas sobre graus que divergem entre as fontes. As linhas passam a ser numeradas dentro de cada bloco, com o número no início e no topo de cada linha. Primeira versão publicada na croquiteca.'}
 - {versao: '0.3', data: 2026-11-18, mudancas: 'Novo visual: capa com foto (Cechinel na Caverna ao pôr do sol), página de abertura com ficha e legenda, índice dos subsetores, fotos de escalada abrindo cada subsetor, blocos em cartões e graus em selo colorido. PDF mais enxuto (28 páginas), com 2 blocos por página e rodapé numerado.'}
 - {versao: '0.4', data: 2026-11-19, mudancas: 'Foto de abertura do Setor de Cima: sai a sequência na Caverna do croqui de 2013 e entra a foto do Cechinel na Caverna ao pôr do sol. Foto nova do bloco Cérebro, com a linha redesenhada.'}
+- {versao: '0.5', data: 2026-11-19, mudancas: 'Foto noturna do Cechinel no Satã entra na abertura do Setor de Cima, ao lado da foto na Caverna.'}
 subsetores:
 - nome: Entrada
   descricao: 'Blocos logo no começo do setor, à direita da trilha, pouco antes de chegar ao Setor de Cima. Ficavam escondidos no mato e apareceram depois dos incêndios do fim de 2025; desde 2026 a galera vem limpando e abrindo linhas. Ainda tem rocha solta e esfarelando: cuidado.'
@@ -66,6 +67,9 @@ subsetores:
   galeria:
   - imagem: ../../assets/wp/2022/01/lce_5838.jpg
     legenda: 'Cechinel na Caverna, ao pôr do sol'
+    credito: 'Foto: acervo Momontanha'
+  - imagem: ../../assets/croquis/castelinhos-anhangava/acao/sata-noturno.jpg
+    legenda: 'Cechinel no Satã (V5), em sessão noturna'
     credito: 'Foto: acervo Momontanha'
   blocos:
   - nome: Caverna
