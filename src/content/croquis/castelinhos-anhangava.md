@@ -4,7 +4,7 @@ setor: Castelinhos
 regiao: Morro do Anhangava — Serra da Baitaca
 municipio: Quatro Barras (PR)
 tipo: boulder
-versao: '0.6'
+versao: '0.7'
 atualizado: 2026-11-19
 rascunho: false
 subtitulo: Boulder no Morro do Anhangava
@@ -33,6 +33,7 @@ historico:
 - {versao: '0.4', data: 2026-11-19, mudancas: 'Foto de abertura do Setor de Cima: sai a sequência na Caverna do croqui de 2013 e entra a foto do Cechinel na Caverna ao pôr do sol. Foto nova do bloco Cérebro, com a linha redesenhada.'}
 - {versao: '0.5', data: 2026-11-19, mudancas: 'Foto noturna do Cechinel no Satã entra na abertura do Setor de Cima, ao lado da foto na Caverna.'}
 - {versao: '0.6', data: 2026-11-19, mudancas: 'Fotos do Cechinel passam a sair sem crédito (capa, aberturas e blocos Orelinha, Cérebro e Ciclone). Fotos de terceiros continuam creditadas.'}
+- {versao: '0.7', data: 2026-11-19, mudancas: 'Mapas dos subsetores redesenhados em vetor, no visual do site: blocos do croqui em destaque e clicáveis, trilhas, saídas e áreas; acompanham o modo escuro.'}
 subsetores:
 - nome: Entrada
   descricao: 'Blocos logo no começo do setor, à direita da trilha, pouco antes de chegar ao Setor de Cima. Ficavam escondidos no mato e apareceram depois dos incêndios do fim de 2025; desde 2026 a galera vem limpando e abrindo linhas. Ainda tem rocha solta e esfarelando: cuidado.'
@@ -109,9 +110,9 @@ subsetores:
     - imagem: ../../assets/croquis/castelinhos-anhangava/piano.jpg
       credito: 'Foto: Croqui dos Castelinhos (2013), linhas redesenhadas'
   mapas:
-  - imagem: ../../assets/croquis/castelinhos-anhangava/mapa-setor-de-cima.jpg
-    legenda: Mapa do Setor de Cima
-    credito: Jornal de Montanha (2011), via croqui de 2013
+  - desenho: castelinhos-setor-de-cima
+    legenda: 'Mapa do Setor de Cima (sem escala)'
+    credito: 'redesenhado a partir do mapa do Jornal de Montanha (2011)'
 - nome: Setor do Meio
   descricao: 'Onde tudo começou: nos anos 80, moradores do Anhangava escalaram as fissuras do bloco das Fendas em móvel e top rope. Tem várias fissuras e alguns dos boulders mais duros do Castelinhos.'
   galeria:
@@ -165,9 +166,9 @@ subsetores:
     - imagem: ../../assets/croquis/castelinhos-anhangava/aresta-peluda.jpg
       credito: 'Foto: Croqui dos Castelinhos (2013), linhas redesenhadas'
   mapas:
-  - imagem: ../../assets/croquis/castelinhos-anhangava/mapa-setor-do-meio.jpg
-    legenda: Mapa do Setor do Meio
-    credito: Jornal de Montanha (2011), via croqui de 2013
+  - desenho: castelinhos-setor-do-meio
+    legenda: 'Mapa do Setor do Meio (sem escala)'
+    credito: 'redesenhado a partir do mapa do Jornal de Montanha (2011)'
 - nome: Setor de Baixo
   descricao: Os lances foram abertos a partir de 2005 por escaladores de Curitiba e do Anhangava.
   galeria:
@@ -212,9 +213,9 @@ subsetores:
     - imagem: ../../assets/croquis/castelinhos-anhangava/fenda.jpg
       credito: 'Foto: Croqui dos Castelinhos (2013), linhas redesenhadas'
   mapas:
-  - imagem: ../../assets/croquis/castelinhos-anhangava/mapa-setor-de-baixo.jpg
-    legenda: Mapa do Setor de Baixo
-    credito: Jornal de Montanha (2011), via croqui de 2013
+  - desenho: castelinhos-setor-de-baixo
+    legenda: 'Mapa do Setor de Baixo (sem escala)'
+    credito: 'redesenhado a partir do mapa do Jornal de Montanha (2011)'
 - nome: Setor Lenhador
   descricao: 'Fica a uns 5 minutos do bloco Caverna. Pegue a trilha ao lado do boulder Satã no sentido do acesso principal (trailer do IAP), passe a pedreira e uma trilha interditada à direita. A trilha sobe, passa por uns pínus e chega numa clareira: ali, pegue a trilha secundária à esquerda. Aberto em 2007 e reativado em 2015, quando as bases foram limpas e algumas agarras soltas foram coladas. Muitas linhas foram feitas primeiro saindo em pé e depois sentado, mantendo o nome.'
   galeria:
@@ -296,12 +297,12 @@ subsetores:
     - imagem: ../../assets/croquis/castelinhos-anhangava/inga.jpg
       credito: 'Foto: croqui do Setor Lenhador (Rafael Briones e Tiago Nunes, 2015), linhas redesenhadas'
   mapas:
-  - imagem: ../../assets/croquis/castelinhos-anhangava/mapa-lenhador-acesso.jpg
-    legenda: Acesso ao Setor Lenhador
-    credito: croqui do Setor Lenhador (2015)
-  - imagem: ../../assets/croquis/castelinhos-anhangava/mapa-lenhador-blocos.jpg
-    legenda: Blocos do Setor Lenhador
-    credito: croqui do Setor Lenhador (2015)
+  - desenho: castelinhos-lenhador-acesso
+    legenda: 'Acesso ao Setor Lenhador (sem escala)'
+    credito: 'redesenhado a partir do croqui do Setor Lenhador (2015)'
+  - desenho: castelinhos-lenhador-blocos
+    legenda: 'Blocos do Setor Lenhador (sem escala)'
+    credito: 'redesenhado a partir do croqui do Setor Lenhador (2015)'
 ---
 
 O Castelinhos é um conjunto de blocos de **granito** aos pés do **Morro do Anhangava**, a cerca de 1.000 m de altitude, perto do **Parque Estadual da Serra da Baitaca** e a uns 30 km de Curitiba. É o setor de boulder mais frequentado do Anhangava. Os blocos ficam em cinco subsetores: a **Entrada** (blocos que apareceram depois do incêndio de 2025), **de Cima**, **do Meio**, **de Baixo** e **Lenhador**.

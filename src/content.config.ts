@@ -90,7 +90,8 @@ const croquis = defineCollection({
         z.object({
           nome: z.string(),
           descricao: z.string().optional(),
-          mapas: z.array(z.object({ imagem: image(), legenda: z.string().optional(), credito: z.string().optional() })).default([]),
+          /** mapas do subsetor: imagem pronta (`imagem`) ou desenho vetorial de src/mapas/<desenho>.json */
+          mapas: z.array(z.object({ imagem: image().optional(), desenho: z.string().optional(), legenda: z.string().optional(), credito: z.string().optional() })).default([]),
           /** fotos de escalada/ambiente que abrem o subsetor */
           galeria: z.array(z.object({ imagem: image(), legenda: z.string().optional(), credito: z.string().optional() })).default([]),
           blocos: z.array(
