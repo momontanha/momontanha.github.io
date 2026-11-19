@@ -4,9 +4,6 @@ regiao: "Anhangava"
 tipo: "boulder"
 capa: "../../assets/wp/2022/01/lce_5838.jpg"
 links:
-  - rotulo: "Croqui do Setor Lenhador (2015)"
-    url: "https://drive.google.com/file/d/1FDw8Bg6fN6MHQZOLZfUiJ_cDlwAuidnK/view?usp=sharing"
-    tipo: "drive"
   - rotulo: "Cadenas no 8a.nu"
     url: "https://www.8a.nu/crags/bouldering/brazil/anhangava"
     tipo: "8a"
@@ -20,5 +17,5 @@ O **Castelinhos** é o setor de boulder mais frequentado do **Morro do Anhangava
 
 **Acesso:** pela Rua do Cavo, na Borda do Campo, até o fim da rua, onde fica uma vila de moradores; dali a trilha à esquerda leva aos blocos. Quem vem pela trilha principal do Anhangava (trailer do IAP) tem o bloco Caverna como referência. A melhor época é o inverno seco, de maio a agosto.
 
-**Croqui próprio:** o croqui do Momontanha junta o croqui de 2013 (que ficou inacabado), o do Setor Lenhador (2015) e as linhas abertas depois disso, com fotos, linhas numeradas, graus e conquistadores. Tem versão web e PDF para baixar, e vai sendo atualizado a cada linha nova. O croqui original do Setor Lenhador (2015) continua disponível no link acima.
+**Croqui próprio:** o croqui do Momontanha junta o croqui de 2013 (que ficou inacabado), o do Setor Lenhador (2015) e as linhas abertas depois disso, com fotos, linhas numeradas, graus e conquistadores. Tem versão web e PDF para baixar, e vai sendo atualizado a cada linha nova.
 
