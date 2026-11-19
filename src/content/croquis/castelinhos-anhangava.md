@@ -4,7 +4,7 @@ setor: Castelinhos
 regiao: Morro do Anhangava — Serra da Baitaca
 municipio: Quatro Barras (PR)
 tipo: boulder
-versao: '0.8'
+versao: '0.9'
 atualizado: 2026-11-19
 rascunho: false
 subtitulo: Boulder no Morro do Anhangava
@@ -35,6 +35,7 @@ historico:
 - {versao: '0.6', data: 2026-11-19, mudancas: 'Fotos do Cechinel passam a sair sem crédito (capa, aberturas e blocos Orelinha, Cérebro e Ciclone). Fotos de terceiros continuam creditadas.'}
 - {versao: '0.7', data: 2026-11-19, mudancas: 'Mapas dos subsetores redesenhados em vetor, no visual do site: blocos do croqui em destaque e clicáveis, trilhas, saídas e áreas; acompanham o modo escuro.'}
 - {versao: '0.8', data: 2026-11-19, mudancas: 'Crédito de organização sem o "(Momontanha)".'}
+- {versao: '0.9', data: 2026-11-19, mudancas: 'PDF passa a sair no formato de celular, com o mesmo visual do site no celular (capa de página inteira, cartões, fontes, mapas e fotos), legível sem zoom.'}
 subsetores:
 - nome: Entrada
   descricao: 'Blocos logo no começo do setor, à direita da trilha, pouco antes de chegar ao Setor de Cima. Ficavam escondidos no mato e apareceram depois dos incêndios do fim de 2025; desde 2026 a galera vem limpando e abrindo linhas. Ainda tem rocha solta e esfarelando: cuidado.'

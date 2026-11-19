@@ -83,9 +83,12 @@ Antes de adicionar foto nova, reduzir para no máximo 1600 px e JPEG qualidade ~
    escalada: `imagem`, `legenda`, `credito`) antes dos mapas; com 2 fotos, elas ficam lado a lado na mesma altura, cada uma
    com largura proporcional ao formato (retrato e paisagem convivem sem corte). Blocos são cartões; a lista de linhas é
    `src/components/ListaLinhas.astro` (em bloco curto, até 6 linhas e 1 foto, ela fica junto da foto no PDF).
-   Títulos em Barlow Condensed, texto em Inter (pacotes @fontsource, embutidos no PDF). No PDF: capa sem margem,
-   rodapé com título, versão e página via `@page` (margin boxes) e `--rodape-esq`, fotos de bloco até 90 mm de
-   altura (cabem 2 blocos curtos por página). Foto boa de escalada ou de paisagem vale ouro: pedir ao Leandro.
+   Títulos em Barlow Condensed, texto em Inter (pacotes @fontsource, embutidos no PDF). **PDF em formato celular**: `scripts/gerar-pdfs.mjs` abre a página a 390 px,
+   liga `html.modo-pdf` (tema claro) e imprime em páginas de 390×844 px (`@page movel`; a capa usa `@page capa`, sem
+   margem). O PDF fica igual ao site no celular, legível sem zoom. As regras `html.modo-pdf …` no fim do CSS da página
+   repetem o layout de celular (as media queries de largura não valem na impressão) e controlam as quebras. O rodapé
+   (setor, versão, página) vem das margin boxes do `@page`, com fundo pintado nelas. A impressão pelo navegador
+   continua em A4 (`@media print`). Foto boa de escalada ou de paisagem vale ouro: pedir ao Leandro.
 8. `rascunho: true` mantém a página fora do sitemap, com `noindex`, e sem botão na croquiteca.
    Tirar o rascunho só quando o Leandro aprovar.
 

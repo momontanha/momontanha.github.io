@@ -4,6 +4,6 @@ import { getCollection } from 'astro:content';
 export async function GET() {
   const croquis = await getCollection('croquis');
   return Response.json(
-    croquis.map((c) => ({ slug: c.id, titulo: c.data.titulo, versao: c.data.versao, rascunho: c.data.rascunho })),
+    croquis.map((c) => ({ slug: c.id, titulo: c.data.titulo, setor: c.data.setor, versao: c.data.versao, rascunho: c.data.rascunho })),
   );
 }
