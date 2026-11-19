@@ -302,6 +302,54 @@ const numeros = [
   .fecho h2 { font-size: 1.5rem; text-transform: uppercase; margin: 0 0 0.6rem; }
   .fecho ul { padding-left: 1.1rem; font-size: 0.92rem; }
 
+
+  /* ---------- PDF para baixar: formato celular ----------
+     scripts/gerar-pdfs.mjs abre a página a 390 px de largura, liga html.modo-pdf e imprime em páginas de
+     390×844 px: o PDF fica igual ao site no celular (fundo, cartões, fontes), legível sem zoom. */
+  @page movel {
+    size: 390px 844px; margin: 20px 0 34px;
+    @top-left-corner { content: ''; background: #f7f5ef; } @top-left { content: ''; background: #f7f5ef; }
+    @top-center { content: ''; background: #f7f5ef; } @top-right { content: ''; background: #f7f5ef; }
+    @top-right-corner { content: ''; background: #f7f5ef; }
+    @bottom-left-corner { content: ''; background: #f7f5ef; } @bottom-right-corner { content: ''; background: #f7f5ef; }
+    @bottom-center { content: ''; background: #f7f5ef; }
+    @bottom-left { content: var(--rodape-esq, 'Momontanha'); background: #f7f5ef; padding-left: 16px; font: 8.5px 'Inter Variable', system-ui, sans-serif; color: #6b736d; }
+    @bottom-right { content: counter(page) ' / ' counter(pages); background: #f7f5ef; padding-right: 16px; font: 600 8.5px 'Inter Variable', system-ui, sans-serif; color: #6b736d; }
+  }
+  @page capa { size: 390px 844px; margin: 0; }
+  html.modo-pdf { background: #f7f5ef; }
+  html.modo-pdf body { page: movel; background: #f7f5ef; }
+  html.modo-pdf .topo-site, html.modo-pdf .rodape, html.modo-pdf .nao-imprimir, html.modo-pdf .acoes, html.modo-pdf .faixa-rascunho { display: none !important; }
+  html.modo-pdf main { padding: 0 16px !important; }
+  html.modo-pdf * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  html.modo-pdf .capa { page: capa; height: 844px; min-height: 0; margin: 0 -16px; break-after: page; }
+  html.modo-pdf .capa-conteudo { padding: 0 20px 36px; }
+  /* as regras de celular (max-width) não valem na hora de imprimir: repetidas aqui */
+  html.modo-pdf .abertura { grid-template-columns: 1fr; gap: 1.2rem; margin: 0 0 1.4rem; }
+  html.modo-pdf .abertura-lado { position: static; }
+  html.modo-pdf .abertura-texto > p:first-child { font-size: 1.08rem; }
+  html.modo-pdf .capa-legenda { display: none; }
+  html.modo-pdf .indice ol { grid-template-columns: 1fr; gap: 0.5rem; }
+  html.modo-pdf .mapas { grid-template-columns: 1fr; }
+  html.modo-pdf .bloco { padding: 0.9rem 0.9rem 0.4rem; }
+  html.modo-pdf .sub-num { font-size: 3.2rem; }
+  html.modo-pdf .sub-cabeca h2 { font-size: 2.2rem; }
+  html.modo-pdf .capa h1 { font-size: 4.4rem; }
+  html.modo-pdf .capa-sub { font-size: 1.5rem; }
+  html.modo-pdf .ficha, html.modo-pdf .legenda, html.modo-pdf .indice, html.modo-pdf .fecho { break-inside: avoid; }
+  html.modo-pdf .abertura-foto { break-inside: avoid; margin-bottom: 1.6rem; }
+  html.modo-pdf .indice { margin-bottom: 0; }
+  html.modo-pdf .subsetor { break-before: page; margin-top: 0; }
+  html.modo-pdf .sub-cabeca { padding-top: 0.2rem; }
+  html.modo-pdf .galeria, html.modo-pdf .mapa { break-inside: avoid; }
+  html.modo-pdf .galeria-2 { flex-direction: row; gap: 0.5rem; }
+  html.modo-pdf .galeria .foto-larga img { max-height: 430px; }
+  html.modo-pdf .inicio-bloco { break-inside: avoid; }
+  html.modo-pdf .bloco-cabeca { break-after: avoid; }
+  html.modo-pdf .bloco .quadro img { max-height: 420px !important; }
+  html.modo-pdf .linhas li { break-inside: avoid; }
+  html.modo-pdf a { text-decoration: none; }
+
   @media (max-width: 760px) {
     .abertura { grid-template-columns: 1fr; gap: 1.4rem; }
     .abertura-lado { position: static; }
@@ -311,13 +359,16 @@ const numeros = [
   }
 
   /* ---------- PDF / impressão ---------- */
+  /* Impressão pelo navegador (A4). O PDF para baixar usa o formato celular, mais abaixo. */
   /* número de página e título no rodapé (margem da página); a capa sai sem margem e sem rodapé */
+  @media print {
   @page {
     size: A4; margin: 13mm 13mm 15mm;
     @bottom-left { content: var(--rodape-esq, 'Momontanha'); font: 7pt 'Inter Variable', system-ui, sans-serif; color: #6b736d; }
     @bottom-right { content: 'momontanha.github.io  ·  ' counter(page) ' / ' counter(pages); font: 7pt 'Inter Variable', system-ui, sans-serif; color: #6b736d; }
   }
   @page :first { margin: 0; @bottom-left { content: none; } @bottom-right { content: none; } }
+  }
   @media print {
     html, body, main, .pagina-croqui { background: #fff !important; }
     :root { font-size: 9.6pt; }
