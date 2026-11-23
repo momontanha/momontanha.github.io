@@ -21,6 +21,7 @@ const menu = [
   { href: 'https://pt.wikiloc.com/wikiloc/user.do?id=1772038', rotulo: 'Tracklogs', externo: true },
   { href: 'https://www.youtube.com/@baitacaZellers', rotulo: 'Vídeos', externo: true },
   { href: url('/sobre/'), rotulo: 'Sobre' },
+  { href: url('/offline/'), rotulo: 'Offline' },
 ];
 ---
 <!doctype html>
@@ -46,6 +47,10 @@ const menu = [
     {og && <meta property="og:image" content={og} />}
     <meta name="twitter:card" content="summary_large_image" />
     <link rel="icon" href={url('/favicon.svg')} type="image/svg+xml" />
+    <link rel="manifest" href={url('/manifest.webmanifest')} />
+    <link rel="apple-touch-icon" href={url('/icones/apple-touch-icon.png')} />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="Momontanha" />
     <link rel="alternate" type="application/rss+xml" title="Momontanha — relatos" href={url('/rss.xml')} />
     <link rel="sitemap" href={url('/sitemap-index.xml')} />
     <slot name="head" />
@@ -76,6 +81,12 @@ const menu = [
       </p>
       <p class="pequeno">Momontanha — relatos de montanha e croquiteca do Paraná. Croquis pessoais e informais: confirme sempre na rocha.</p>
     </footer>
+    <script is:inline define:vars={{ sw: url('/sw.js'), escopo: url('/') }}>
+      // app instalável e offline (public/sw.js)
+      if ('serviceWorker' in navigator && !document.documentElement.classList.contains('modo-pdf')) {
+        addEventListener('load', () => navigator.serviceWorker.register(sw, { scope: escopo }).catch(() => {}));
+      }
+    </script>
     <script is:inline>
       document.querySelector('.botao-tema')?.addEventListener('click', () => {
         const raiz = document.documentElement;

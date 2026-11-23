@@ -75,7 +75,16 @@ const numeros = [
     <a class="botao" href={pdf} download>Baixar PDF<small>versão {d.versao}</small></a>
     {mapa && <a class="botao secundario" href={mapa} target="_blank" rel="noopener">Ver no mapa<small>{d.coordenadas!.join(', ')}</small></a>}
     {d.oitoa && <a class="botao secundario" href={d.oitoa} target="_blank" rel="noopener">8a.nu<small>cadenas registradas</small></a>}
+    {!d.rascunho && (
+      <button type="button" class="botao secundario botao-offline" data-offline data-ao-salvo="lista" data-slug={croqui.id} data-titulo={d.setor} data-versao={d.versao} data-pagina={url(`/croquis/${croqui.id}/`)} data-pdf={pdf}>
+        <span class="rotulo">Salvar no celular</span><small>para usar offline</small>
+      </button>
+    )}
   </nav>
+  <script>
+    import { ligarBotoesOffline } from '../../lib/offline';
+    ligarBotoesOffline();
+  </script>
 
   <section class="abertura">
     <div class="abertura-texto"><Content /></div>
@@ -212,6 +221,9 @@ const numeros = [
   .capa-legenda { position: absolute; right: 1rem; bottom: 0.6rem; margin: 0; font-size: 0.72rem; opacity: 0.75; max-width: 40%; text-align: right; }
 
   .acoes { display: flex; flex-wrap: wrap; gap: 0.6rem; margin: 1.4rem 0 0.4rem; }
+  .botao-offline { border: 1px solid var(--titulo); font: inherit; font-weight: 600; cursor: pointer; text-align: left; }
+  .botao-offline[data-estado='salvo'] { background: #2e7d4f; color: #fff !important; border-color: #2e7d4f; }
+  .botao-offline[data-estado='velho'] { background: var(--destaque); color: #fff !important; border-color: var(--destaque); }
 
   /* ---------- abertura ---------- */
   .abertura { display: grid; grid-template-columns: minmax(0, 1.7fr) minmax(16rem, 1fr); gap: 2.4rem; margin: 2rem 0; align-items: start; }

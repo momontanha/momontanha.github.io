@@ -17,6 +17,18 @@ riscadas, e o Claude transforma em arquivos aqui.
   `--tinta`, `--titulo`, `--link`, `--marca`…). O tema segue o sistema; o botão do topo grava `data-tema` (claro/escuro)
   no `localStorage`. Não usar cor fixa (`#fff`) em fundo/texto: usar as variáveis. Impressão/PDF é sempre claro.
 
+## App instalável e offline (PWA)
+- `public/manifest.webmanifest` + ícones em `public/icones/` (gerados com PIL a partir do desenho do favicon): o site
+  instala como app (Android: "Instalar app"; iPhone: "Adicionar à Tela de Início"); abre em `/offline/`.
+- `public/sw.js` (service worker, registrado no `Base.astro`): páginas com rede primeiro e cópia salva como
+  reserva (sem cópia → `/offline/`); arquivos com cópia primeiro. Ao mudar o `sw.js`, subir `VERSAO`.
+- **Salvar no celular**: botão `[data-offline]` na página do croqui e em `/offline/`; `src/lib/offline.ts` baixa a
+  página, fotos, CSS, JS, fontes (latin) e o PDF para o cache `momontanha-croqui-<slug>` e guarda a lista no
+  `localStorage`. Quando a `versao` do croqui muda, o botão vira "Atualizar offline".
+- `src/pages/offline.astro`: instalar o app + lista dos croquis próprios (salvar, abrir, PDF, remover).
+  Croquis da croquiteca que estão no Drive ou em sites de guias não funcionam offline.
+- Testar: build, servir `dist/` em `localhost`, salvar um croqui, derrubar o servidor e reabrir a página.
+
 ## Comandos
 - `npm run build` — site + PDFs em `dist/` (PDFs em `dist/pdf/`).
 - `npm run build:site` / `npm run pdfs` — cada etapa separada.
