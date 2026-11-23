@@ -17,6 +17,8 @@ const atual = Astro.url.pathname;
 const menu = [
   { href: url('/relatos/'), rotulo: 'Relatos' },
   { href: url('/croquiteca/'), rotulo: 'Croquiteca' },
+  { href: 'https://pt.wikiloc.com/wikiloc/user.do?id=1772038', rotulo: 'Trilhas' },
+  { href: 'https://www.youtube.com/@baitacaZellers', rotulo: 'Vídeos' },
   { href: url('/sobre/'), rotulo: 'Sobre' },
 ];
 ---
@@ -55,10 +57,10 @@ const menu = [
       </a>
       <nav aria-label="Principal">
         {menu.map((m) => <a href={m.href} aria-current={atual.startsWith(m.href) ? 'page' : undefined}>{m.rotulo}</a>)}
-        <button class="botao-tema" type="button" aria-label="Alternar modo claro ou escuro" title="Modo claro / escuro">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2" /><path d="M12 3a9 9 0 0 1 0 18Z" fill="currentColor" /></svg>
-        </button>
       </nav>
+      <button class="botao-tema" type="button" aria-label="Alternar modo claro ou escuro" title="Modo claro / escuro">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2" /><path d="M12 3a9 9 0 0 1 0 18Z" fill="currentColor" /></svg>
+      </button>
     </header>
     <main>
       <slot />
