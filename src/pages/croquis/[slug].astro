@@ -73,8 +73,8 @@ const numeros = [
 
   <nav class="acoes nao-imprimir" aria-label="Ações">
     <a class="botao" href={pdf} download>Baixar PDF<small>versão {d.versao}</small></a>
-    {mapa && <a class="botao secundario" href={mapa}>Ver no mapa<small>{d.coordenadas!.join(', ')}</small></a>}
-    {d.oitoa && <a class="botao secundario" href={d.oitoa} rel="noopener">8a.nu<small>cadenas registradas</small></a>}
+    {mapa && <a class="botao secundario" href={mapa} target="_blank" rel="noopener">Ver no mapa<small>{d.coordenadas!.join(', ')}</small></a>}
+    {d.oitoa && <a class="botao secundario" href={d.oitoa} target="_blank" rel="noopener">8a.nu<small>cadenas registradas</small></a>}
   </nav>
 
   <section class="abertura">
@@ -172,7 +172,7 @@ const numeros = [
           ))}
           {!(b.fotos.length <= 1 && b.linhas.length <= 6) && <ListaLinhas linhas={b.linhas} />}
           {b.links.length > 0 && (
-            <p class="links-bloco nao-imprimir">{b.links.map((l, i) => <>{i > 0 && ' · '}<a href={l.url} rel="noopener">{l.rotulo}</a></>)}</p>
+            <p class="links-bloco nao-imprimir">{b.links.map((l, i) => <>{i > 0 && ' · '}<a href={l.url} target="_blank" rel="noopener">{l.rotulo}</a></>)}</p>
           )}
         </article>
       ))}

@@ -26,9 +26,9 @@ const mapa = coordenadas ? `https://www.google.com/maps/search/?api=1&query=${co
         <li><a class="botao" href={url(`/croquis/${proprio.id}/`)}>Croqui {proprio.data.setor}<small>versão {proprio.data.versao} · web e PDF</small></a></li>
       )}
       {links.map((l) => (
-        <li><a class={`botao ${l.tipo === 'guia' ? 'guia' : l.tipo === 'drive' || l.tipo === 'pdf' ? '' : 'secundario'}`} href={l.url} rel="noopener">{l.rotulo}<small>{ROTULO_LINK[l.tipo]}</small></a></li>
+        <li><a class={`botao ${l.tipo === 'guia' ? 'guia' : l.tipo === 'drive' || l.tipo === 'pdf' ? '' : 'secundario'}`} href={l.url} target="_blank" rel="noopener">{l.rotulo}<small>{ROTULO_LINK[l.tipo]}</small></a></li>
       ))}
-      {mapa && <li><a class="botao secundario" href={mapa}>Ver no mapa<small>{coordenadas!.join(', ')}</small></a></li>}
+      {mapa && <li><a class="botao secundario" href={mapa} target="_blank" rel="noopener">Ver no mapa<small>{coordenadas!.join(', ')}</small></a></li>}
     </ul>
     <Content />
   </div>
