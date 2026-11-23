@@ -1,0 +1,107 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import { url, dataBR } from '../lib/util';
+
+const croquis = (await getCollection('croquis', (c) => !c.data.rascunho)).sort((a, b) => a.data.setor.localeCompare(b.data.setor));
+---
+<Base titulo="Croquis offline" descricao="Instale o Momontanha no celular e salve os croquis para abrir sem internet, no setor.">
+  <div class="pagina-offline">
+    <h1>Croquis offline</h1>
+    <p class="intro">Instale o Momontanha como app e salve os croquis no celular. Eles abrem sem internet, no setor, com fotos, linhas, mapas e o PDF.</p>
+
+    <section class="instalar" id="instalar">
+      <div class="instalar-texto">
+        <h2>1. Instale o app</h2>
+        <p data-instalado hidden><strong>App instalado ✓</strong> Abra pelo ícone do Momontanha na tela inicial.</p>
+        <div data-instrucoes>
+          <p class="nao-ios">No Android (Chrome): toque no botão abaixo ou no menu <strong>⋮</strong> → <strong>Instalar app</strong>.</p>
+          <p class="ios" hidden>No iPhone (Safari): toque em <strong>Compartilhar</strong> → <strong>Adicionar à Tela de Início</strong>.</p>
+        </div>
+      </div>
+      <button type="button" class="botao" data-instalar hidden>Instalar app<small>sem loja, grátis</small></button>
+    </section>
+
+    <section>
+      <h2>2. Salve os croquis</h2>
+      <p class="meta">Salve antes de sair de casa. Quando sair uma versão nova, aparece o botão para atualizar.</p>
+      <ul class="lista-offline">
+        {croquis.map((c) => {
+          const pagina = url(`/croquis/${c.id}/`);
+          const pdf = url(`/pdf/${c.id}-v${c.data.versao}.pdf`);
+          return (
+            <li class="cartao-offline">
+              <div class="co-texto">
+                <a class="co-nome" href={pagina}>{c.data.setor}</a>
+                <span class="meta">{c.data.regiao} · versão {c.data.versao} · {dataBR(c.data.atualizado)}</span>
+              </div>
+              <div class="co-acoes">
+                <button type="button" class="botao" data-offline data-ao-salvo="nada" data-slug={c.id} data-titulo={c.data.setor} data-versao={c.data.versao} data-pagina={pagina} data-pdf={pdf}>
+                  <span class="rotulo">Salvar no celular</span><small>para usar offline</small>
+                </button>
+                <a class="botao secundario" href={pagina}>Abrir<small>croqui</small></a>
+                <a class="botao secundario" href={pdf}>PDF<small>baixar</small></a>
+                <button type="button" class="botao secundario remover" data-remover={c.id} hidden>Remover<small>do celular</small></button>
+              </div>
+            </li>
+          );
+        })}
+      </ul>
+      <p class="meta" data-espaco></p>
+      <p class="aviso">Os croquis da <a href={url('/croquiteca/')}>croquiteca</a> que estão no Google Drive ou em sites de guias precisam de internet. Os croquis próprios do Momontanha funcionam offline.</p>
+    </section>
+  </div>
+  <script>
+    import { ligarBotoesOffline, removerCroqui, salvo, tamanho, lerSalvos } from '../lib/offline';
+
+    // instalar
+    const botaoInstalar = document.querySelector<HTMLButtonElement>('[data-instalar]')!;
+    const instalado = matchMedia('(display-mode: standalone)').matches || (navigator as any).standalone;
+    const ios = /iphone|ipad|ipod/i.test(navigator.userAgent);
+    if (instalado) {
+      document.querySelector<HTMLElement>('[data-instalado]')!.hidden = false;
+      document.querySelector<HTMLElement>('[data-instrucoes]')!.hidden = true;
+    } else if (ios) {
+      document.querySelector<HTMLElement>('.ios')!.hidden = false;
+      document.querySelector<HTMLElement>('.nao-ios')!.hidden = true;
+    }
+    let pedido: any = null;
+    addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); pedido = e; botaoInstalar.hidden = false; });
+    botaoInstalar.addEventListener('click', async () => { if (!pedido) return; pedido.prompt(); await pedido.userChoice; pedido = null; botaoInstalar.hidden = true; });
+    addEventListener('appinstalled', () => { botaoInstalar.hidden = true; document.querySelector<HTMLElement>('[data-instalado]')!.hidden = false; });
+
+    // salvar / remover
+    async function atualizarRemover() {
+      for (const b of document.querySelectorAll<HTMLButtonElement>('[data-remover]')) b.hidden = !(await salvo(b.dataset.remover!));
+      const total = Object.values(lerSalvos()).reduce((s, x) => s + (x.bytes || 0), 0);
+      const espaco = document.querySelector<HTMLElement>('[data-espaco]')!;
+      espaco.textContent = total ? `Ocupando ${tamanho(total)} no celular.` : '';
+    }
+    document.addEventListener('offline-mudou', atualizarRemover);
+    document.querySelectorAll<HTMLButtonElement>('[data-remover]').forEach((b) => b.addEventListener('click', async () => {
+      await removerCroqui(b.dataset.remover!);
+      location.reload();
+    }));
+    ligarBotoesOffline();
+    atualizarRemover();
+  </script>
+</Base>
+
+<style>
+  .pagina-offline { max-width: 46rem; }
+  .intro { font-size: 1.1rem; }
+  .instalar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; background: var(--superficie); border: 1px solid var(--linha); border-radius: 12px; padding: 1rem 1.2rem; margin: 1.5rem 0 2rem; }
+  .instalar h2 { margin-top: 0; }
+  .instalar p { margin: 0.3rem 0; }
+  .lista-offline { list-style: none; padding: 0; margin: 1rem 0; display: grid; gap: 0.8rem; }
+  .cartao-offline { background: var(--superficie); border: 1px solid var(--linha); border-radius: 12px; padding: 1rem 1.1rem; display: grid; gap: 0.7rem; }
+  .co-nome { font-family: 'Barlow Condensed', 'Arial Narrow', system-ui, sans-serif; font-weight: 700; font-size: 1.5rem; text-transform: uppercase; text-decoration: none; color: var(--titulo); display: block; line-height: 1.1; }
+  .co-acoes { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .co-acoes .botao { padding: 0.45rem 0.8rem; }
+  button.botao { border: 0; font: inherit; font-weight: 600; cursor: pointer; text-align: left; }
+  button.botao.secundario { border: 1px solid var(--titulo); }
+  button.botao[data-estado='salvo'] { background: #2e7d4f; }
+  button.botao[data-estado='velho'] { background: var(--destaque); }
+  button.botao[data-estado='erro'] { background: #9b3b2e; }
+  .remover { color: #9b3b2e !important; border-color: #9b3b2e !important; }
+</style>

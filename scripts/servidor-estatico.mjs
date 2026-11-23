@@ -7,6 +7,7 @@ const TIPOS = {
   '.html': 'text/html; charset=utf-8', '.css': 'text/css', '.js': 'text/javascript', '.json': 'application/json',
   '.svg': 'image/svg+xml', '.webp': 'image/webp', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.png': 'image/png',
   '.xml': 'application/xml', '.txt': 'text/plain', '.pdf': 'application/pdf',
+  '.webmanifest': 'application/manifest+json', '.woff2': 'font/woff2',
 };
 
 export function servir({ pasta = 'dist', base = '/', porta = 4329 } = {}) {
