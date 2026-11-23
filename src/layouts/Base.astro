@@ -17,8 +17,9 @@ const atual = Astro.url.pathname;
 const menu = [
   { href: url('/relatos/'), rotulo: 'Relatos' },
   { href: url('/croquiteca/'), rotulo: 'Croquiteca' },
-  { href: 'https://pt.wikiloc.com/wikiloc/user.do?id=1772038', rotulo: 'Trilhas' },
-  { href: 'https://www.youtube.com/@baitacaZellers', rotulo: 'Vídeos' },
+  // links externos abrem em nova guia
+  { href: 'https://pt.wikiloc.com/wikiloc/user.do?id=1772038', rotulo: 'Tracklogs', externo: true },
+  { href: 'https://www.youtube.com/@baitacaZellers', rotulo: 'Vídeos', externo: true },
   { href: url('/sobre/'), rotulo: 'Sobre' },
 ];
 ---
@@ -56,7 +57,9 @@ const menu = [
         Momontanha
       </a>
       <nav aria-label="Principal">
-        {menu.map((m) => <a href={m.href} aria-current={atual.startsWith(m.href) ? 'page' : undefined}>{m.rotulo}</a>)}
+        {menu.map((m) => m.externo
+          ? <a href={m.href} target="_blank" rel="noopener">{m.rotulo}</a>
+          : <a href={m.href} aria-current={atual.startsWith(m.href) ? 'page' : undefined}>{m.rotulo}</a>)}
       </nav>
       <button class="botao-tema" type="button" aria-label="Alternar modo claro ou escuro" title="Modo claro / escuro">
         <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2" /><path d="M12 3a9 9 0 0 1 0 18Z" fill="currentColor" /></svg>
