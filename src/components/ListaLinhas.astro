@@ -13,7 +13,7 @@ const { linhas } = Astro.props;
       <li>
         <span class="num" style={`--cor:${cor}`}>{l.n}</span>
         <div class="linha-texto">
-          <p class="linha-nome"><strong>{l.nome}</strong>{l.saida === 'sentado' && <span class="tag">SDS</span>}{l.saida === 'em pé' && <span class="tag">em pé</span>}{l.oitoa && <a class="link-8a" href={l.oitoa} rel="noopener" title="Ver cadenas no 8a.nu">8a.nu</a>}</p>
+          <p class="linha-nome"><strong>{l.nome}</strong>{l.saida === 'sentado' && <span class="tag">SDS</span>}{l.saida === 'em pé' && <span class="tag">em pé</span>}{l.oitoa && <a class="link-8a" href={l.oitoa} target="_blank" rel="noopener" title="Ver cadenas no 8a.nu">8a.nu</a>}</p>
           {l.descricao && <p class="linha-desc">{l.descricao}</p>}
           {conquista && <p class="linha-conquista">Conquista: {conquista}</p>}
         </div>
